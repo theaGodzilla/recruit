@@ -1,0 +1,40 @@
+.list .con {
+  width: 1450px;
+  margin: 0 auto; }
+  .list .con .tittl {
+    color: aqua;
+    font-size: 26px;
+    height: 70px;
+    line-height: 70px; }
+  .list .con .list_top {
+    height: 45px;
+    line-height: 45px;
+    font-size: 15px;
+    width: 1450px; }
+    .list .con .list_top .ming {
+      display: inline-block;
+      width: 235px;
+      text-align: center;
+      color: #999; }
+  .list .con .list_ul {
+    width: 1400px;
+    height: 765px; }
+    .list .con .list_ul .list_li {
+      height: 70px;
+      border-bottom: 1px dotted  burlywood; }
+      .list .con .list_ul .list_li .one, .list .con .list_ul .list_li .three {
+        display: inline-block;
+        text-align: center;
+        line-height: 70px; }
+      .list .con .list_ul .list_li .three {
+        width: 300px; }
+      .list .con .list_ul .list_li .one {
+        width: 200px; }
+      .list .con .list_ul .list_li .ti {
+        color: #FF6000; }
+      .list .con .list_ul .list_li .two {
+        display: inline-block;
+        width: 250px;
+        text-align: center; }
+
+/*# sourceMappingURL=list.css.map */

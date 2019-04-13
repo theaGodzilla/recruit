@@ -1,0 +1,83 @@
+.content{
+    width: 1000px;
+    height: 100%;
+    margin: 0 auto;
+}
+.reg_top{
+    height: 70px;
+    border: 1px solid silver;
+    
+        h1{
+            font-size: 30px;
+            line-height: 70px;
+            // text-align: center;
+        }
+    }
+
+
+
+.conten{
+   
+    .reg_box{
+        height: 599px;
+        width: 1000px;
+        background:url(../img/bg_register.380d5695.png);
+        overflow: hidden;
+        .r_box{
+            width: 900px;
+             height: 800px;
+            border: 1px solid silver;
+            border-top: 8px solid  #ffc666;
+            margin:60px auto;
+            .form1{
+                width: 520px;
+                height: 400px;
+                margin: 0 auto;
+                // border: 1px solid sandybrown;
+                .for_h1{
+                    height: 50px;
+                    // border: 1px solid sienna;
+                    line-height: 50px;
+                    text-align: center;
+                    font-size: 25px;
+                    margin: 30px;
+                }
+                label{
+                    display: block;
+                    margin-top: 20px;
+                    margin-left: 10px;
+                }
+                input{
+                    width: 300px;
+                    height: 30px;
+                    border: 1px solid silver;
+                    padding-left: 5px;
+                    margin-left: 30px;
+                }
+                .bnt{
+                    width: 370px;
+                    height: 36px;
+                    margin: 23px 0 0 53px;
+                }
+                .two{
+                    text-align: center;
+                    label{
+                        text-align: right;
+                    }
+                    .two_i{
+                        width: 340px;
+                        margin-bottom: 10px;
+                        margin-left: 30px;
+                        height: 35px;
+                    }
+                    .zewei{
+                        width: 340px;
+                        height: 37px;
+                        display: block;
+                        margin-left: 87px;
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,58 @@
+.list{
+    .con{
+        width: 1450px;
+        margin: 0 auto;
+     
+    .tittl{
+        color: aqua;
+        font-size: 26px;
+        height: 70px;
+        line-height: 70px;
+    }
+    .list_top{
+        height: 45px;
+        // border: 1px solid paleturquoise;
+    //   margin-left: 116px;
+        line-height: 45px;
+        font-size: 15px;
+        width: 1450px;
+     .ming{
+         display: inline-block;
+          width: 235px;
+          text-align: center;
+          color: #999;
+     }
+    }
+    .list_ul{
+        width: 1400px;
+        height: 765px;
+    
+        .list_li{
+           height: 70px;
+           border-bottom: 1px dotted  burlywood;
+        .one,.three{
+            display: inline-block;
+           
+            text-align: center;
+            line-height: 70px;
+        }
+        .three{
+             width: 300px;    
+             }
+   
+        .one{
+            width: 200px;
+        }
+        .ti{
+            color: #FF6000;
+         }
+        .two{
+            display: inline-block;
+            width: 250px;
+            text-align: center;
+            
+        }
+        }
+    }
+    }
+}

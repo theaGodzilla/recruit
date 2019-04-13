@@ -1,0 +1,114 @@
+.content {
+  height: 50px;
+  margin-top: 20px;
+}
+.content .content_list {
+  float: left;
+  margin-right: 50px;
+  line-height: 46px;
+  font-size: 38px;
+}
+.content .jishu_box {
+  float: right;
+}
+.content .jishu_box .jishu_list {
+  float: left;
+  line-height: 49px;
+  font-size: 13px;
+  padding: 0 25px;
+}
+.content .jishu_box .ligth {
+  border-bottom: 2px solid slategrey;
+}
+
+.job-list-wrapper {
+  width: 100%;
+}
+.job-list-wrapper .job_box, .job-list-wrapper .job_box1 {
+  width: 1400px;
+  height: 520px;
+  margin-left: -30px;
+  display: none;
+}
+.job-list-wrapper .job_box .job_list, .job-list-wrapper .job_box1 .job_list {
+  width: 100%;
+  height: 430px;
+  margin-top: 20px;
+}
+.job-list-wrapper .job_box .job_list .job_itit, .job-list-wrapper .job_box1 .job_list .job_itit {
+  float: left;
+  width: 305px;
+  height: 220px;
+  border: 1px solid #EAEEED;
+  margin: 10px 8px;
+}
+.job-list-wrapper .job_box .job_list .job_itit .job_top, .job-list-wrapper .job_box1 .job_list .job_itit .job_top {
+  width: 281px;
+  height: 115px;
+  border-bottom: 1px dashed silver;
+  margin: 10px 0 0 15px;
+}
+.job-list-wrapper .job_box .job_list .job_itit .job_top .title, .job-list-wrapper .job_box1 .job_list .job_itit .job_top .title {
+  display: inline-block;
+  font-size: 16px;
+}
+.job-list-wrapper .job_box .job_list .job_itit .job_top .time, .job-list-wrapper .job_box1 .job_list .job_itit .job_top .time {
+  margin-left: 8px;
+  color: #555;
+  font-size: 11px;
+}
+.job-list-wrapper .job_box .job_list .job_itit .job_top .wage, .job-list-wrapper .job_box1 .job_list .job_itit .job_top .wage {
+  color: red;
+  float: right;
+  font-size: 14px;
+}
+.job-list-wrapper .job_box .job_list .job_itit .job_top .year, .job-list-wrapper .job_box1 .job_list .job_itit .job_top .year {
+  margin-top: 13px;
+  color: slategray;
+  font-size: 14px;
+}
+.job-list-wrapper .job_box .job_list .job_itit .job_top .span1, .job-list-wrapper .job_box1 .job_list .job_itit .job_top .span1 {
+  display: inline-block;
+  border: 1px solid #F0F0F0;
+  margin: 16px 8px 0 0;
+  padding: 2px 4px;
+  font-size: 12px;
+}
+.job-list-wrapper .job_box .job_list .job_itit .job_bottom, .job-list-wrapper .job_box1 .job_list .job_itit .job_bottom {
+  width: 240px;
+  height: 50px;
+  margin: 0 0 0 15px;
+  position: relative;
+}
+.job-list-wrapper .job_box .job_list .job_itit .job_bottom .bo_log, .job-list-wrapper .job_box1 .job_list .job_itit .job_bottom .bo_log {
+  width: 40px;
+  height: 40px;
+  float: left;
+  margin-top: 7px;
+}
+.job-list-wrapper .job_box .job_list .job_itit .job_bottom .bo_1, .job-list-wrapper .job_box1 .job_list .job_itit .job_bottom .bo_1 {
+  float: left;
+  margin-left: 13px;
+  margin-top: 10px;
+  font-size: 13px;
+}
+.job-list-wrapper .job_box .job_list .job_itit .job_bottom .bo_2, .job-list-wrapper .job_box1 .job_list .job_itit .job_bottom .bo_2 {
+  position: absolute;
+  left: 50px;
+  top: 29px;
+  color: #999;
+  font-size: 13px;
+}
+.job-list-wrapper .job_box .pager_container, .job-list-wrapper .job_box1 .pager_container {
+  height: 30px;
+  float: right;
+}
+.job-list-wrapper .job_box .pager_container .pager, .job-list-wrapper .job_box1 .pager_container .pager {
+  display: inline-block;
+  width: 60px;
+  height: 25px;
+  border: 1px solid #ededed;
+  text-align: center;
+}
+
+/*# sourceMappingURL=cr_index.css.map */

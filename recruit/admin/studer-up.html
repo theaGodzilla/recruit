@@ -1,0 +1,174 @@
+<!--_meta 作为公共模版分离出去-->
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="renderer" content="webkit|ie-comp|ie-stand">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+<link rel="Bookmark" href="favicon.ico" >
+<link rel="Shortcut Icon" href="favicon.ico" />
+
+<link rel="stylesheet" type="text/css" href="static/h-ui/css/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/H-ui.admin.css" />
+<link rel="stylesheet" type="text/css" href="lib/Hui-iconfont/1.0.8/iconfont.css" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/skin/default/skin.css" id="skin" />
+<link rel="stylesheet" type="text/css" href="static/h-ui.admin/css/style.css" />
+
+
+<link href="lib/webuploader/0.1.5/webuploader.css" rel="stylesheet" type="text/css" />
+<style>
+   #tmpimg{
+		width: 200px;
+        height: 100px;
+	}
+</style>
+</head>
+<body>
+<div class="page-container">
+    <div class='box'>
+    
+                
+               
+ 
+
+<!--_footer 作为公共模版分离出去-->
+<script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script> 
+<script type="text/javascript" src="lib/layer/2.4/layer.js"></script>
+<script type="text/javascript" src="static/h-ui/js/H-ui.js"></script> 
+<script type="text/javascript" src="static/h-ui.admin/js/H-ui.admin.page.js"></script>
+<!--/_footer /作为公共模版分离出去-->
+
+<!--请在下方写此页面业务相关的脚本-->
+<script type="text/javascript" src="lib/jquery.validation/1.14.0/jquery.validate.js"></script> 
+<script type="text/javascript" src="lib/jquery.validation/1.14.0/validate-methods.js"></script> 
+<script type="text/javascript" src="lib/jquery.validation/1.14.0/messages_zh.js"></script> 
+<script type="text/javascript" src="lib/webuploader/0.1.5/webuploader.min.js"></script> 
+<script type="text/javascript" src="lib/ueditor/1.4.3/ueditor.config.js"></script>
+<script type="text/javascript" src="lib/ueditor/1.4.3/ueditor.all.min.js"> </script>
+<script type="text/javascript" src="lib/ueditor/1.4.3/lang/zh-cn/zh-cn.js"></script>
+<script type="text/javascript">
+
+
+
+    // var uploaded=false//图片没有上传
+    let OL_Action_Root="http://localhost:9000";
+    getInfoById();
+   
+    function getInfoById(){
+        var  storage=window.localStorage
+        var id= storage.getItem('updateid');
+        $.post(OL_Action_Root+'/api/studer/getstuderID',{id:id},function(res){
+    
+            var str=`
+            <form action="" method="post" class="form form-horizontal" id="form-article-add">
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>姓名：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="${res.data[0].name}" placeholder="" id="name" name="">
+			</div>
+        </div>
+        <div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>密码:</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="${res.data[0].mima}" placeholder="" id="mima" name="">
+			</div>
+        </div>
+        <div class="row cl">
+                <label class="form-label col-xs-4 col-sm-2">学号:</label>
+                <div class="formControls col-xs-8 col-sm-9">
+                    <input type="text" class="input-text" value="${res.data[0].xuehao}" placeholder="" id="xuehao" name="">
+                </div>
+            </div>
+        <div class="row cl">
+                <label class="form-label col-xs-4 col-sm-2">邮箱：</label>
+                <div class="formControls col-xs-8 col-sm-9">
+                    <input type="text" class="input-text" value="${res.data[0].email}" placeholder="" id="email" name="">
+                </div>
+            </div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2">外语水平：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="${res.data[0].language}" placeholder="" id="language" name="">
+			</div>
+		</div>
+	
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2">专业：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" name="" id="major" placeholder="" value="${res.data[0].major}" class="input-text">
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2">求职意向：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" name="" id="job" placeholder="" value="${res.data[0].job}" class="input-text">
+			</div>
+        </div>
+        <div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2">求职城市：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" name="" id="city" placeholder="" value="${res.data[0].city}" class="input-text">
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2">理想薪资：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" name="" id="like" placeholder="" value="${res.data[0].like}" class="input-text">
+			</div>
+		</div>
+	
+        <div class="row cl">
+                <label class="form-label col-xs-4 col-sm-2"></label>
+                <div class="formControls col-xs-8 col-sm-9">
+                    <div class="uploader-thum-container">
+                         
+                         <input type="button" class='addbtn' value="提交" onclick="upstuder()"> 
+                    </div>
+                </div>
+            </div>
+  </form>
+            
+            `;
+            $('.box').html(str);
+
+        })
+    }
+
+
+
+//更新学生信息
+function upstuder(){
+    var  storage=window.localStorage
+        var id= storage.getItem('updateid');
+               var studerdata={
+                        id:id,
+                        name:$('#name').val(),
+                        mima:$('#mima').val(),
+                        xuehao:$('#xuehao').val(),
+                        email:$('#email').val(),
+                        language:$('#language').val(),
+                        major:$('#major').val(),
+                        job:$('#job').val(),
+                        like:$('#like').val(),
+                        city:$('#city').val()
+                    }
+		   console.log(studerdata)
+     	$.post(OL_Action_Root+"/api/studer/upID",studerdata,function(res){
+             console.log(res)
+            if (res.err==0) {
+               window.location.href='admin.html';
+            }else{
+            	alert(res.msg)
+            }
+     	})
+     	  
+     }
+
+
+
+
+</script>
+</body>
+</html>

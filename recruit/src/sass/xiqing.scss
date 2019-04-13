@@ -1,0 +1,93 @@
+#xiang{
+    .top{
+        background-color: #f2f5f4;
+
+        .top-con{
+            width: 1167px;
+            height: 250px;
+            // border: 1px solid red;
+            padding-left: 20px;
+            padding-top: 40px;
+            
+                 .top-title{
+                      font-size: 68px;
+
+                 }
+          .tao{
+              float: right;
+              width: 150px;
+              height: 60px;
+              background-color: #00b38a;
+              font-size: 20px;
+              color: white;
+              line-height: 60px;
+              text-align: center;
+              border-radius: 5px;
+          }
+            .h1{
+                font-size: 29px;
+                margin: 14px 0 14px 0;
+            }
+            .xinx{
+                font-size: 12px;
+                color: #999;
+            }
+        }
+    }
+    .Box{
+        position: absolute;
+        top: 0;
+        left: 0;
+        background-color: #999;
+        opacity: 0.2;
+        display: none;
+       
+       
+    }
+    .show{
+        width: 200px;
+        height: 100px;
+        background-color: white;
+        opacity:1;
+        position: absolute;
+        display: none;
+        top: 0;
+        left: 0;
+        text-align: center;
+        line-height: 100px;
+        span{
+            position: absolute;
+            top: -38px;
+            right: 11px;
+            width: 20px;
+            height: 20px;
+        }
+    }
+    .xibox{
+        width: 1400px;
+        height: 600px;
+        // border: 1px solid salmon;
+        margin-top: 40px;
+        .you{
+           font-size: 30px;
+           font-weight: bold;
+           margin: 20px 0 20px 0;
+        }
+        .h2,.h3{
+            font-size: 23px;
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+        .h3{
+            margin-bottom: 10px;
+        }
+        .boxul{
+            margin-left: 20px;
+            li{
+                font-size: 20px;
+                margin-top: 20px;
+            }
+        }
+    }
+ 
+}

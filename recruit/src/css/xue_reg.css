@@ -1,0 +1,61 @@
+.content {
+  width: 1000px;
+  height: 100%;
+  margin: 0 auto; }
+
+.reg_top {
+  height: 70px;
+  border: 1px solid silver; }
+  .reg_top h1 {
+    font-size: 30px;
+    line-height: 70px; }
+
+.conten .reg_box {
+  height: 599px;
+  width: 1000px;
+  background: url(../img/bg_register.380d5695.png);
+  overflow: hidden; }
+  .conten .reg_box .r_box {
+    width: 900px;
+    height: 800px;
+    border: 1px solid silver;
+    border-top: 8px solid  #ffc666;
+    margin: 60px auto; }
+    .conten .reg_box .r_box .form1 {
+      width: 520px;
+      height: 400px;
+      margin: 0 auto; }
+      .conten .reg_box .r_box .form1 .for_h1 {
+        height: 50px;
+        line-height: 50px;
+        text-align: center;
+        font-size: 25px;
+        margin: 30px; }
+      .conten .reg_box .r_box .form1 label {
+        display: block;
+        margin-top: 20px;
+        margin-left: 10px; }
+      .conten .reg_box .r_box .form1 input {
+        width: 300px;
+        height: 30px;
+        border: 1px solid silver;
+        padding-left: 5px;
+        margin-left: 30px; }
+      .conten .reg_box .r_box .form1 .bnt {
+        width: 370px;
+        height: 36px;
+        margin: 23px 0 0 53px; }
+      .conten .reg_box .r_box .form1 .two {
+        text-align: center; }
+        .conten .reg_box .r_box .form1 .two .two_i {
+          width: 340px;
+          margin-bottom: 10px;
+          margin-left: 30px;
+          height: 35px; }
+        .conten .reg_box .r_box .form1 .two .zewei {
+          width: 340px;
+          height: 37px;
+          display: block;
+          margin-left: 87px; }
+
+/*# sourceMappingURL=xue_reg.css.map */

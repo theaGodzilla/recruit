@@ -1,0 +1,79 @@
+.lg_tbar {
+  width: 100%;
+  height: 30px;
+  background-color: black; }
+  .lg_tbar .lg_top {
+    color: white;
+    float: right;
+    margin: 0 20px;
+    line-height: 30px; }
+
+.top-nav-container {
+  width: 100%;
+  height: 55px;
+  background-color: #3763; }
+  .top-nav-container .log {
+    display: inline-block;
+    line-height: 55px;
+    font-size: 30px;
+    font-weight: 800; }
+  .top-nav-container .nav-list {
+    float: right; }
+    .top-nav-container .nav-list .nav-item {
+      width: 130px;
+      line-height: 55px;
+      float: left;
+      text-align: center;
+      font-size: 18px; }
+
+.contain-header {
+  background: url(../img/bjt_regular2.jpg);
+  height: 223px;
+  width: 100%;
+  overflow: hidden; }
+  .contain-header .form1 {
+    width: 830px;
+    height: 49px;
+    border: 1px solid silver;
+    margin: 30px auto 0;
+    display: flex; }
+    .contain-header .form1 .search-input {
+      width: 740px;
+      height: 45px;
+      padding-left: 20px; }
+    .contain-header .form1 .sbnt {
+      width: 83px;
+      height: 47px;
+      background-color: darkcyan; }
+  .contain-header .hot-list {
+    width: 830px;
+    height: 30px;
+    margin: 0 auto; }
+    .contain-header .hot-list .hot-item {
+      float: left;
+      padding: 0 11px;
+      line-height: 30px;
+      font-size: 13px;
+      color: #555; }
+      .contain-header .hot-list .hot-item:first-child {
+        font-weight: 600; }
+
+.bb {
+  width: 100%;
+  height: 200px;
+  border: 1px solid silver; }
+  .bb .bootom {
+    display: flex;
+    line-height: 200px; }
+    .bb .bootom h1 {
+      font-size: 30px; }
+    .bb .bootom .sp, .bb .bootom .sp1 {
+      margin-left: 40px; }
+    .bb .bootom .sp {
+      bottom: 20px; }
+    .bb .bootom .sp1 {
+      bottom: 0px; }
+  .bb .sp {
+    display: block; }
+
+/*# sourceMappingURL=comm.css.map */
