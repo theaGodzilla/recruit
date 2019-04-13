@@ -1,8 +1,11 @@
-const express=require('express');
-const Router=express.Router();      //路由
-const userModel=require('../model/userModel.js');
-const mail=require('../admin/index.js');
-const utli=require('../admin/utli/utli.js')
+const express = require('express');
+const Router = express.Router();      //路由
+const userModel = require('../model/userModel.js');
+const q_mail = require('../admin/index.js');
+const q_utli = require('../admin/utli/utli.js');
+
+const mail=require('../mail.js');
+const util=require('../utils/utils.js')
 
 
 /**
@@ -24,11 +27,11 @@ const utli=require('../admin/utli/utli.js')
 //     userModel.find({name})
 //     .then((data)=>{
 //         if(data.length>=1){
-//             return res.send(utli.sendData(-1,'用户已存在',null))
+//             return res.send(q_utli.sendData(-1,'用户已存在',null))
 //         }
 //         else{
 //             if(obj[name]!==code){
-//                 return res.send(utli.sendData(-1,'验证码错误',null))
+//                 return res.send(q_utli.sendData(-1,'验证码错误',null))
 //                 // console.log(err)
 //             }
 //             userModel.insertMany({name,pass})
@@ -41,7 +44,7 @@ const utli=require('../admin/utli/utli.js')
 //             })
 //         }
 //     })
-    
+
 // })
 
 
@@ -58,21 +61,21 @@ const utli=require('../admin/utli/utli.js')
  */
 
 //登录
-Router.post('/login',(req,res)=>{
-    let {id,name,pass}=req.body
-    // console.log(req.body)
-    // userModel.insertMany({name,pass})
-    userModel.find({id,name,pass})
-    .then((data)=>{
-       console.log(data)
-       if(data.length>=1){
-        //    return res.send('登录成功',data)
-           return res.send(utli.sendData(0,'登录成功',data))
-        }else{
-            res.send('登录失败')
-        }
-    })
-})
+// Router.post('/login', (req, res) => {
+//     let { id, name, pass } = req.body
+//     // console.log(req.body)
+//     // userModel.insertMany({name,pass})
+//     userModel.find({ id, name, pass })
+//         .then((data) => {
+//             console.log(data)
+//             if (data.length >= 1) {
+//                 //    return res.send('登录成功',data)
+//                 return res.send(q_utli.sendData(0, '登录成功', data))
+//             } else {
+//                 res.send('登录失败')
+//             }
+//         })
+// })
 
 
 /**
@@ -92,23 +95,23 @@ Router.post('/login',(req,res)=>{
 
 
 
-let obj={};
+// let obj = {};
 
 // //获取邮箱验证码
-Router.post('/email',(req,res)=>{
-      let {name,pass,email,code}=req.body;
-      if(obj[email]!==code){
-          return res.send(utli.sendData(-1,'验证码错误',null))
-    
-      }
-      userModel.update({pass})
-      .then((resolve)=>{
-        //   console.log(resolve)
-          res.send(utli.sendData(0,'密码更改成功',null))
-	   })
-      .catch((err)=>{
-          res.send(utli.sendData(-1,'密码跟改失败',null))
-      })
+Router.post('/email', (req, res) => {
+    let { name, pass, email, code } = req.body;
+    if (obj[email] !== code) {
+        return res.send(q_utli.sendData(-1, '验证码错误', null))
+
+    }
+    userModel.update({ pass })
+        .then((resolve) => {
+            //   console.log(resolve)
+            res.send(q_utli.sendData(0, '密码更改成功', null))
+        })
+        .catch((err) => {
+            res.send(q_utli.sendData(-1, '密码跟改失败', null))
+        })
 })
 
 /**
@@ -123,28 +126,84 @@ Router.post('/email',(req,res)=>{
  */
 
 // //验证码
+// Router.post('/getcode', (req, res) => {
+//     let { email } = req.body;
+
+//     if (!email || email == '') {
+//         return res.send(q_utli.sendData(-1, '参数错误', null))
+//     }
+//     let num1 = parseInt(Math.random(0, 1) * 1000).toString();
+//     q_mail.sendMail(email, num1)
+
+//         .then((resolve) => {
+//             obj[email] = num1
+//             // console.log(q_utli.sendData);
+//             res.send(q_utli.sendData(0, '验证码已发送', null))
+//         })
+//         .catch((err) => {
+//             res.send(q_utli.sendData(-1, '验证码发送失败', null))
+//         })
+// })
+
+//bbbbbb
+//登录
+let obj={}
+Router.post('/login',(req,res)=>{
+	let {name,pass}=req.body;
+	userModel.find({name,pass})
+	.then((data)=>{
+		console.log(data)
+		if(data.length>=1){return res.send('登录成功')}
+		res.send('登录失败')
+	})
+})
+//验证用户是否存在
+Router.post('/uspd',(req,res)=>{
+	let {name}=req.body;
+	userModel.find({name})
+	.then((data)=>{
+		console.log(data)
+		if(data.length>=1){return res.send('yes')}
+		res.send('no')
+	})
+})
+//注册
+Router.post('/reg',(req,res)=>{
+	let {name,pass,code}=req.body;
+	userModel.find({name})
+	.then((data)=>{
+		console.log(data)
+		if(data.length>=1){return res.send('用户以存在')}
+		if(obj[name]!==code){return res.send(util.sendData(-1,'验证码错误',null))}
+		userModel.insertMany({name,pass})
+		.then((resolve)=>{
+			res.send(util.sendData(0,'注册ok 请登录',null))
+		})
+		.catch((err)=>{
+			console.log(err)
+			res.send(util.sendData(-1,'注册失败',null))
+		})
+	})
+})
+
 Router.post('/getcode',(req,res)=>{
-    let {email}=req.body;
- 
-    if(!email||email==''){
-        return  res.send(utli.sendData(-1,'参数错误',null))
-    }
-    let num1=parseInt(Math.random(0,1)*1000).toString();
-    mail.sendMail(email,num1)
- 
-    .then((resolve)=>{
-        obj[email]=num1
-        // console.log(utli.sendData);
-         res.send(utli.sendData(0,'验证码已发送',null))
-    })
-    .catch((err)=>{
-        res.send(utli.sendData(-1,'验证码发送失败',null))
-    })
+	let {email}=req.body
+	if(!email||email==""){return res.send(util.sendData(-1,'参数错误',null))}
+	let num1=(parseInt(Math.random(0,1)*10000)).toString()
+	mail.sendmail(email,num1)
+	.then((resolve)=>{
+		obj[email]=num1
+		//保存验证信息
+//		console.log(obj)
+		res.send(util.sendData(0,'验证码已发送',null))
+	})
+	.catch((err)=>{
+		console.log(err)
+		res.send(util.sendData(-1,'验证码发送失败',null))
+	})
 })
 
 
 
 
-
-
-module.exports=Router;
+module.exports = Router;

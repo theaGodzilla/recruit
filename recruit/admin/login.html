@@ -1,4 +1,4 @@
-<!DOCTYPE HTML>
+﻿<!DOCTYPE HTML>
 <html>
 <head>
 <meta charset="utf-8">
@@ -17,46 +17,56 @@
 <!--[if IE 6]>
 <script type="text/javascript" src="http://lib.h-ui.net/DD_belatedPNG_0.0.8a-min.js" ></script>
 <script>DD_belatedPNG.fix('*');</script><![endif]-->
-<title>后台登录 - H-ui.admin.page v3.0</title>
+<title>后台登录</title>
 <meta name="keywords" content="H-ui.admin v3.0,H-ui网站后台模版,后台模版下载,后台管理系统模版,HTML后台模版下载">
 <meta name="description" content="H-ui.admin v3.0，是一款由国人开发的轻量级扁平化网站后台模板，完全免费开源的网站后台管理系统模版，适合中小型CMS后台系统。">
 </head>
 <body>
 <input type="hidden" id="TenantId" name="TenantId" value="" />
-<div class="header">
-
-	
-</div>
+<div class="header"></div>
 <div class="loginWraper">
 	<div id="loginform" class="loginBox">
-		<!-- 登录 -->
-		<div class='denglu' >
-			 <p class='deng'>后台登录</p>
-			<form class="form form-horizontal" method="post">
-				<div class="row cl">
-					<label class="form-label col-xs-3"><i class="Hui-iconfont">&#xe60d;</i></label>
-					<div class="formControls col-xs-8">
-						<input id="name" name="" type="text" placeholder="用户名" class="input-text size-L">
-					</div>
+		<!--<form class="form form-horizontal" action="index.html" method="post">-->
+		<div class="form form-horizontal">
+			<div class="row cl">
+				
+				<label class="form-label col-xs-3"><i class="Hui-iconfont">&#xe60d;</i></label>
+				<div class="formControls col-xs-8">
+					<span id="uspass"></span>
+					<input id="us" name="" type="text" placeholder="账户" class="input-text size-L">
 				</div>
-				<div class="row cl">
-					<label class="form-label col-xs-3"><i class="Hui-iconfont">&#xe60e;</i></label>
-					<div class="formControls col-xs-8">
-						<input id="pass" name="" type="password" placeholder="密码" class="input-text size-L">
-					</div>
+			</div>
+			<div class="row cl">
+				<label class="form-label col-xs-3"><i class="Hui-iconfont">&#xe60e;</i></label>
+				<div class="formControls col-xs-8">
+					<input id="pass" name="" type="password" placeholder="密码" class="input-text size-L">
 				</div>
-			</form>
+			</div>
+			<!--<div class="row cl">
+				<div class="formControls col-xs-8 col-xs-offset-3">
+					<input class="input-text size-L" type="text" placeholder="验证码" onblur="if(this.value==''){this.value='验证码:'}" onclick="if(this.value=='验证码:'){this.value='';}" value="验证码:" style="width:150px;">
+					<img src="images/VerifyCode.aspx.png">
+					<a id="kanbuq" href="javascript:;">看不清，换一张</a>
+				</div>
+			</div>-->
 			<div class="row cl">
 				<div class="formControls col-xs-8 col-xs-offset-3">
-					<input name="" type="submit" class="btn btn-success radius size-L" value="&nbsp;登&nbsp;&nbsp;&nbsp;&nbsp;陆&nbsp;"
-					 onclick='login()' style="margin-left: 50px;width: 200px">
-					
+					<label for="online">
+						<input type="checkbox" checked="checked" name="online" id="online" value="">
+						使我保持登录状态</label>
+				</div>
+			</div>
+			<div class="row cl">
+				<div class="formControls col-xs-8 col-xs-offset-3">
+					<input onclick="login()" type="submit" class="btn btn-success radius size-L" value="&nbsp;登&nbsp;&nbsp;&nbsp;&nbsp;录&nbsp;">
+					<!--<input name="" type="reset" class="btn btn-default radius size-L" value="&nbsp;取&nbsp;&nbsp;&nbsp;&nbsp;消&nbsp;">-->
+					<a onclick="goreg()" href="JavaScript:;">没有账号，去注册</a>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
-<div class="footer" style="border-top: none"></div>
+<div class="footer">计软152卜俊</div>
 
 <script type="text/javascript" src="lib/jquery/1.9.1/jquery.min.js"></script>
 <script type="text/javascript" src="static/h-ui/js/H-ui.js"></script>
@@ -68,43 +78,49 @@ var _hmt = _hmt || [];
   var s = document.getElementsByTagName("script")[0]; 
   s.parentNode.insertBefore(hm, s);
 })();
-
-
-
-//登录
 let rootpath='http://localhost:9000';
-
 function login(){
-
 	var data={
-		name:$('#name').val(),
+		name:$('#us').val(),
 		pass:$('#pass').val()
 	}
-	$.post(rootpath+'/api/user/login',data,function(res){
-		console.log(res)
-	     if(res.msg=='登录失败'){
-			alert('检查信息');
-			return
-		 }
-		  alert('登录成功')
-		  if(alert){
-			  var id=res.data[0]._id;
-			  console.log(id)
-			 var  storage=window.localStorage;
-			 var id1=storage.setItem('updateid',id);
-			 window.location.href="http://localhost:9000/admin/admin.html"
-		  }
+	console.log(data);
+		$.post(rootpath+'/api/user/login',data,function(res){
+			console.log(res)
+			if(res=='登录成功'){
+				uspass.innerHTML='';
+//				alert(res)
+				$.cookie('cooname',us.value,{expires:7});
+				if(online.checked){
+					$.cookie('person',JSON.stringify({'name':us.value, 'pass':pass.value}),{expires:7})
+				}else{
+					$.cookie('person',{expires:-1})
+				}
+				window.location.href='http://localhost:9000/admin.html'
+			}else{
+				uspass.innerHTML='用户名或密码不正确';
+				uspass.style.color='red';
+			}
+		})
+	}
+function goreg(){
+	window.location.href='http://localhost:9000/reg.html'
+console.log(coname)
 
-		
-	})
 }
-
-
-
-
-
-
-
+window.onload=function(){
+//	var a = $.cookie('person');
+//	console.log(a)
+//	if(a!==null){
+		var coname = JSON.parse($.cookie('person')).name;
+		var copass = JSON.parse($.cookie('person')).pass;
+		$('#us').val(coname);
+		$('#pass').val(copass);
+//	}else{
+//		$('#us').val('');
+//		$('#pass').val('');
+//	}
+}
 </script>
 </body>
 </html>

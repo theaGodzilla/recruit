@@ -15,8 +15,9 @@ app.use(bodyParser.json())
 
 
 //静态文件开启
+app.use(express.static(path.join(__dirname,'./public')));
 app.use(express.static(path.join(__dirname,'./wj')));
-app.use('/admin',express.static(path.join(__dirname,'./admin')))
+app.use(express.static(path.join(__dirname,'./admin')))
 app.use(express.static(path.join(__dirname,'./src')))
 // app.use('/admin',express.static(path.join(__dirname,'./')))
 
@@ -35,6 +36,13 @@ app.use('/api/studer',studer);
 //企业
 const qiy=require('./router/qiy.js');
 app.use('/api/qiy',qiy);
+
+
+const upload=require('./router/upload.js')
+const com=require('./router/com.js')
+
+app.use('/api/upload',upload)
+app.use('/api/com',com)
 
 app.listen(9000,()=>{
     console.log('服务器开启')
