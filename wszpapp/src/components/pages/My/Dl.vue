@@ -35,9 +35,7 @@ export default {
       nav: [
         { name: "", tubiao: "" },
         { name: "登录", tubiao: "iconfont icon-icon-solidArrow-up" },
-
-        { name: "注册", tubiao: "iconfont icon-icon-solidArrow-up" },
-
+        { name: "修改密码", tubiao: "iconfont icon-icon-solidArrow-up" },
         { name: "", tubiao: "" }
       ],
       sel: 1,

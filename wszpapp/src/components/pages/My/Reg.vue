@@ -4,41 +4,114 @@
       <div class="content">
         <li class="number">
           <div class="cell_phone">
-            <input type="text" name placeholder="请输入您的手机号">
+            <input v-model="user" type="text" name placeholder="请输入学号">
           </div>
         </li>
         <li class="zc_mima">
           <div class="psw">
-            <input type="text" name placeholder="请输入您的密码">
+            <input v-model="pass" type="password" name placeholder="请输入原密码">
           </div>
         </li>
         <li class="code">
           <div class="huo">
-            <input type="text" name placeholder="请填写验证码">
-            <div class="huoqu">获取验证码</div>
+            <input v-model="passtwo" type="password" name placeholder="请输入新密码">
+            <!-- <div class="huoqu">获取验证码</div> -->
           </div>
         </li>
         <li class="Zc">
-          <div class="Zcbtn">
-            <a>注册并登陆</a>
-          </div>
+          <div :class="show?'hl':''" @click="updata">修改密码</div>
         </li>
       </div>
     </ul>
   </div>
 </template>
 <script type="text/javascript">
+import { Toast } from "mint-ui";
 export default {
   name: "Reg",
   components: {},
   data() {
     return {
-      test: 111111111111
+      user: "",
+      pass: "",
+      passtwo: "",
+      show: false
     };
   },
-  methods: {},
+  methods: {
+    hl() {
+      if (this.user && this.pass && this.passtwo) {
+        this.show = true;
+      } else {
+        this.show = false;
+      }
+    },
+    updata() {
+      if (!this.user) {
+        Toast("请输入学号");
+      } else if (!this.pass) {
+        Toast("请输入密码");
+      } else {
+        this.$axios
+          .post("/api/api/studer/getxuehao", {
+            xuehao: this.user
+          })
+          .then(res => {
+            if (res == "yes") {
+              this.log();
+            } else {
+              Toast("用户不存在");
+            }
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      }
+    },
+    log() {
+      this.$axios
+        .post("/api/api/studer/sreg", {
+          xuehao: this.user,
+          mima: this.pass
+        })
+        .then(res => {
+          console.log(res);
+          if (res.msg == 200) {
+            this.up();
+          } else {
+            Toast("密码错误");
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    up() {
+      this.$axios
+        .post("/api/api/studer/uppass", {
+          xuehao: this.user,
+          mima: this.passtwo
+        })
+        .then(res => {
+          if (res.msg == 200) {
+            Toast("修改成功");
+            setTimeout(() => {
+              this.$router.go(0)
+            }, 3000);
+          } else {
+            Toast("密码错误");
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
+  },
   mounted() {},
-  created() {}
+  created() {},
+  updated() {
+    this.hl();
+  }
 };
 </script>
 <style lang="less" scoped>
@@ -160,6 +233,10 @@ export default {
         .fs(13);
         .lh(45);
         color: white;
+        .hl {
+          border-radius: 20px;
+          background: orange;
+        }
       }
     }
   }

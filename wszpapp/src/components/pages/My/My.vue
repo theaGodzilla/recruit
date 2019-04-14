@@ -21,13 +21,18 @@
           </div>
         </div>
       </li>
-      <input v-show="show" type="button" @click="out" value="退出">
+      <!-- <input v-show="show" type="button" @click="out" value="退出"> -->
+      <!-- <input type="button" @click="out" value="退出"> -->
     </ul>
+    <mt-button class="input" size="large" type="default" @click="out" plain>退出</mt-button>
     <Footer></Footer>
   </div>
 </template>
 <script type="text/javascript">
+import Vue from "vue";
 import Footer from "../../commons/Footer";
+import { Button } from "mint-ui";
+Vue.component(Button.name, Button);
 export default {
   name: "My",
   components: {
@@ -48,16 +53,16 @@ export default {
         },
         {
           tubiao: "iconfont icon-cailanzi",
-          wenzi: "菜篮子",
+          wenzi: "我的投递",
           jiantou: "iconfont icon-fanhui"
         },
         {
           tubiao: "iconfont icon-daren",
-          wenzi: "达人认证",
+          wenzi: "个人信息",
           jiantou: "iconfont icon-fanhui"
         }
       ],
-      name: "点击登录或注册"
+      name: "点击登录或修密码"
     };
   },
   computed: {
@@ -82,12 +87,9 @@ export default {
   },
   mounted() {},
   created() {
-    // console.log(window.localStorage.getItem('user'))
-    // console.log(this.$store.state.login)
     if (this.$store.state.login) {
-      this.name = window.localStorage.getItem("user");
+      this.name = JSON.parse(window.localStorage.getItem("info")).name;
       this.$store.commit("changeSliderShow", true);
-      // console.log(this.name)
     } else {
       this.name = "点击登录或注册";
     }
@@ -145,19 +147,6 @@ export default {
   }
   .meul {
     .w(375);
-    .h(54);
-    position: relative;
-    input {
-      display: block;
-      border: none;
-      .h(21);
-      .w(50);
-      .fs(14);
-      .lh(21);
-      position: absolute;
-      right: 0;
-      .bottom(-200);
-    }
     .meli {
       .padding(0, 0, 0, 10);
       list-style: none;
@@ -203,6 +192,12 @@ export default {
         }
       }
     }
+  }
+  .input {
+    .w(350);
+    margin: 0 auto;
+    .mt(180);
+    .fs(14);
   }
 }
 </style>

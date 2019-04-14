@@ -8,8 +8,7 @@ Router.post('/comlist', (req, res) => {
 	//实现分页 
 	let pagesize = Number(req.body.pagesize);
 	let target = Number(req.body.target);
-	let total = 0
-	console.log(req.body);
+	let total = 0;
 	comModel.find()
 		.then((res) => {
 			total = res.length

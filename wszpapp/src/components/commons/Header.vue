@@ -6,7 +6,7 @@
 			</div>
 			<div class="con">
 				<i class="iconfont icon-ipad"></i>
-				菜谱、用户等
+				职位、公司等
 			</div>
 			<div @click="show" class="right">
 				<i class="iconfont icon-xiaoxi"></i>

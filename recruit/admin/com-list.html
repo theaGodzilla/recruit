@@ -534,6 +534,7 @@
 		}
 		//验证
 		window.onload = function () {
+			console.log("q\nn\nz\nr".replace(new RegExp("\n","g"),""))
 			var a = $.cookie('cooname');
 			if (a == 'null') {
 				layer.alert('请先登录', function () {

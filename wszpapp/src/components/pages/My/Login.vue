@@ -5,62 +5,95 @@
         <li class="phone">
           <div class="tu">
             <img src="../../../../img/phone.png">
-            <input v-model="user" type="text" name placeholder="请输入您的手机号">
+            <input v-model="user" type="text" name placeholder="请输入学号">
           </div>
         </li>
         <li class="mima">
           <div class="suo">
             <img src="../../../../img/suo.png">
-            <input v-model="pass" type="password" name placeholder="请输入您的密码">
+            <input v-model="pass" type="password" name placeholder="请输入密码">
           </div>
         </li>
         <li class="Lj">
           <div :class="show?'hl':''" @click="login">立即登陆</div>
         </li>
         <div class="wj">
-          <a>忘记密码？</a>
+          <a></a>
         </div>
       </div>
     </ul>
   </div>
 </template>
 <script type="text/javascript">
-// import Swiper from 'swiper';
+import { Toast } from "mint-ui";
 export default {
   name: "Login",
   components: {},
   data() {
     return {
-      test: 111111,
+      info: {},
       user: "",
       pass: "",
-      show:false
+      show: false
     };
   },
   methods: {
     login() {
-      if (this.user == "" || this.pass == "") {
-        return false;
+      if (!this.user) {
+        Toast("请输入学号");
+      } else if (!this.pass) {
+        Toast("请输入密码");
       } else {
-        window.localStorage.setItem("user", this.user);
-        window.localStorage.setItem("pass", this.pass);
-        this.$store.commit("changeLogin", true);
-        this.$router.go(-1);
+        this.$axios
+          .post("/api/api/studer/getxuehao", {
+            xuehao: this.user
+          })
+          .then(res => {
+            if (res == "yes") {
+              this.log();
+            } else {
+              Toast("用户不存在");
+            }
+          })
+          .catch(err => {
+            console.log(err);
+          });
       }
     },
-    hl(){
-      if(this.user!==''&&this.pass!==''){
-        this.show=true
-      }else{
-        this.show=false
+    log() {
+      this.$axios
+        .post("/api/api/studer/sreg", {
+          xuehao: this.user,
+          mima: this.pass
+        })
+        .then(res => {
+          if (res.msg == 200) {
+            this.info=res.data[0]
+            window.localStorage.setItem("user", this.user);
+            window.localStorage.setItem("info", JSON.stringify(this.info));
+            this.$store.commit("changeLogin", true);
+            this.$router.go(-1);
+          } else {
+            Toast("密码错误");
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    hl() {
+      if (this.user && this.pass) {
+        this.show = true;
+      } else {
+        this.show = false;
       }
     }
   },
   mounted() {},
   created() {
   },
-  updated(){
-    this.hl()
+  updated() {
+    this.hl();
   }
 };
 </script>
@@ -157,7 +190,7 @@ export default {
         .fs(13);
         .lh(45);
         color: white;
-        .hl{
+        .hl {
           border-radius: 20px;
           background: orange;
         }
