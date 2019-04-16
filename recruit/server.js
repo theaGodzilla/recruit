@@ -1,11 +1,11 @@
 
 
-const express=require('express');
-const app=express();
+const express = require('express');
+const app = express();
 
-const bodyParser=require('body-parser');
-const path=require('path')
-const db=require('./dbconnect.js')  //数据库连接
+const bodyParser = require('body-parser');
+const path = require('path')
+const db = require('./dbconnect.js')  //数据库连接
 
 
 
@@ -15,35 +15,39 @@ app.use(bodyParser.json())
 
 
 //静态文件开启
-app.use(express.static(path.join(__dirname,'./public')));
-app.use(express.static(path.join(__dirname,'./wj')));
-app.use(express.static(path.join(__dirname,'./admin')))
-app.use(express.static(path.join(__dirname,'./src')))
+app.use(express.static(path.join(__dirname, './public')));
+app.use(express.static(path.join(__dirname, './wj')));
+app.use(express.static(path.join(__dirname, './admin')))
+app.use(express.static(path.join(__dirname, './src')))
 // app.use('/admin',express.static(path.join(__dirname,'./')))
 
 //router
-const user=require('./router/user.js'); //调用路由
-app.use('/api/user',user)              //使用路由
+const user = require('./router/user.js'); //调用路由
+app.use('/api/user', user)              //使用路由
 
 //上传文件
-const upimg=require('./router/upimg.js');
-app.use('/api/upimg',upimg);
+const upimg = require('./router/upimg.js');
+app.use('/api/upimg', upimg);
 
 //学生
-const studer=require('./router/studer.js');
-app.use('/api/studer',studer);
+const studer = require('./router/studer.js');
+app.use('/api/studer', studer);
 
 //企业
-const qiy=require('./router/qiy.js');
-app.use('/api/qiy',qiy);
+const qiy = require('./router/qiy.js');
+app.use('/api/qiy', qiy);
+
+//实习生
+const sss = require('./router/sss.js');
+app.use('/api/sss', sss);
 
 
-const upload=require('./router/upload.js')
-const com=require('./router/com.js')
+const upload = require('./router/upload.js')
+const com = require('./router/com.js')
 
-app.use('/api/upload',upload)
-app.use('/api/com',com)
+app.use('/api/upload', upload)
+app.use('/api/com', com)
 
-app.listen(9000,()=>{
+app.listen(9000, () => {
     console.log('服务器开启')
 })

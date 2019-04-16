@@ -33,14 +33,14 @@
         :key="index"
       >
         <div class="img">
-          <img :src="item.bookImg" alt>
+          <img :src="item.imageUrl" alt>
         </div>
         <div class="title">
-          <div class="name">{{item.bookName}}</div>
-          <div class="desc confs">{{item.bookData}}</div>
+          <div class="name">{{item.title}}</div>
+          <div class="desc confs">{{item.companyFullname}}</div>
           <div class="user confs">
-            {{item.userName}}
-            <span>{{item.bookCollectionNum}}人做过</span>
+            {{item.city}}
+            <span>{{item.days_a_week}}</span>
           </div>
           <div class="look confs">
             <i class="iconfont icon-liulan"></i>
@@ -63,12 +63,12 @@ export default {
   components: {},
   data() {
     return {
-      options: ["综合最佳", "收藏最多", "做过最多"],
+      options: ["综合", "收藏最多", "投递最多"],
       now: 0,
       list: [],
       pageNo: 1,
       cont: null,
-      type: "综合最佳",
+      type: "综合",
       isok: false
     };
   },
@@ -81,6 +81,7 @@ export default {
     selItem(index, type) {
       this.now = index;
       this.type = type;
+      this.pageNo = 1;
       this.list = [];
       this.getData();
     },
@@ -88,23 +89,31 @@ export default {
       this.getData();
     },
     getData() {
+      this.toast = Toast({
+        message: "loading",
+        iconClass: "fa-spin fa fa-spinner"
+      });
       this.$axios
-        .get("/api/fx2/cookbook/bookSearch", {
-          params: {
-            type: this.type,
-            pageNo: this.pageNo,
-            searchKey: this.cont
-          }
+        .post("/api/api/sss/findSss", {
+          type: this.type,
+          pageSize: 10,
+          target: this.pageNo,
+          job: this.cont
         })
         .then(res => {
-          this.list = this.list.concat(res.pager.data);
-          this.pageNo++;
-          if (this.list.length == 0) {
-            this.isok = !this.isok;
-          } else {
-            this.isok = false;
+          console.log(res);
+          if (res.msg == 200) {
+            console.log(this.list);
+            this.list = this.list.concat(res.data.data);
+            this.pageNo++;
+            this.toast.close();
           }
-          console.log(this.list.length);
+
+          // if (this.list.length == 0) {
+          //   this.isok = !this.isok;
+          // } else {
+          //   this.isok = false;
+          // }
         })
         .catch(err => {
           console.log(err);

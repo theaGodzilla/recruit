@@ -102,6 +102,7 @@ export default {
 // @import '../../font_fesfye4intq/iconfont.css';s
 // @import '../../styles/base.css';
 .my {
+  overflow-x: hidden;
   .me {
     .h(44);
     .w(375);

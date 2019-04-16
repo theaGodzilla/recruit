@@ -63,7 +63,8 @@ export default {
       this.toast = Toast({
         message: "loading",
         iconClass: "fa-spin fa fa-spinner"
-      }); //发起请求
+      });
+      //发起请求
       this.$axios
         .post("/api/api/qiy/findqiy", {
           pagesize: 10,
