@@ -11,6 +11,16 @@ import Reg from '../components/pages/My/Reg'
 import Dl from '../components/pages/My/Dl'
 import Details from '../components/commons/Details'
 import List from '../components/commons/List'
+import Info from '../components/commons/Info'
+import Resume from '../components/commons/Resume'
+import Collection from '../components/commons/Collection'
+import Apply from '../components/commons/Apply'
+import Search from '../components/commons/Search'
+import Msgd from '../components/commons/Msgd'
+import Computer from '../components/commons/Computer'
+import Detailsss from '../components/commons/Detailsss'
+import Footpr from '../components/commons/Footpr'
+import Detailstart from '../components/commons/Detailstart'
 
 Vue.use(Router)
 
@@ -43,14 +53,14 @@ export default new Router({
         {
           path: 'xlist',
           name: 'Xlist',
-          component: Xlist
+          component: Xlist,
         }
       ]
     },
     {
       path: '/my',
       name: 'My',
-      component: My
+      component: My,
     },
     {
       path: '/dl',
@@ -78,7 +88,57 @@ export default new Router({
       path: '/list',
       name: 'List',
       component: List
-    }
+    },
+    {
+      path: '/info',
+      name: 'Info',
+      component: Info
+    },
+    {
+      path: '/resume',
+      name: 'Resume',
+      component: Resume
+    },
+    {
+      path: '/collection',
+      name: 'Collection',
+      component: Collection
+    },
+    {
+      path: '/apply',
+      name: 'Apply',
+      component: Apply
+    },
+    {
+      path: '/search',
+      name: 'Search',
+      component: Search
+    },
+    {
+      path: '/msgd',
+      name: 'Msgd',
+      component: Msgd
+    },
+    {
+      path: '/computer',
+      name: 'Computer',
+      component: Computer
+    },
+    {
+      path: '/detailsss',
+      name: 'Detailsss',
+      component: Detailsss
+    },
+    {
+      path: '/footpr',
+      name: 'Footpr',
+      component: Footpr
+    },
+    {
+      path: '/detailstart',
+      name: 'Detailstart',
+      component: Detailstart
+    },
   ]
 })
 

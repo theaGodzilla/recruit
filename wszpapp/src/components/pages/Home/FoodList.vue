@@ -2,7 +2,7 @@
   <div class="foodlist">
     <div class="menu">
       <i class="iconfont icon-icon-copy"></i>
-      精选菜谱
+      精选职位
     </div>
     <ul
       v-infinite-scroll="loadMore"
@@ -13,22 +13,23 @@
         tag="li"
         v-for="(item,index) in foodlist"
         :key="index"
-        :to="{path:'details',query:{bookId:item.bookId,bookUserId:item.bookUserId}}"
+        :to="{path:'details',query:{id:item.id}}"
       >
         <a href="JavaScript:;">
           <div class="img">
-            <img :src="item.bookImg">
+            <img :src="item.imageUrl">
           </div>
-          <div class="name">{{item.bookName}}</div>
+          <div class="name">{{item.title}}</div>
           <div class="user">
-            <div class="userimg">
-              <img :src="item.bookUserImg">
-            </div>
-            <div class="username">{{item.bookUserName}}</div>
+            <!-- <div class="userimg">
+              <img :src="item.imageUrl">
+            </div>-->
+            <div class="username r">{{item.companyFullname}}</div>
+            <div class="username">{{item.city}}</div>
           </div>
         </a>
       </router-link>
-      <div v-if="allLoaded" style="text-align:center;">没有更多数据了</div>
+      <div v-if="allLoaded" class="username" style="text-align:center;width:100%">没有更多数据了</div>
       <mt-spinner v-show="bottomStatus == 'loading'" color="#e7693f" :type="3">Loading</mt-spinner>
     </ul>
   </div>
@@ -48,7 +49,7 @@ export default {
     return {
       name: "我是home页面",
       foodlist: [],
-      pageNo: 1,
+      pageNo: 3,
       allLoaded: false, //数据是否加载完毕
 
       bottomStatus: "" //底部上拉加载状态
@@ -57,38 +58,33 @@ export default {
   methods: {
     loadMore() {
       this.getData();
-      //			  this.bottomStatus='';
     },
     getData() {
       this.toast = Toast({
         message: "loading",
         iconClass: "fa-spin fa fa-spinner"
       });
-      //发起请求
       this.$axios
-        .post("/api/api/qiy/findqiy", {
-          pagesize: 10,
+        .post("/api/api/sss/findSss", {
+          // type: this.type,
+          pageSize: 10,
           target: this.pageNo
+          // job: this.cont
         })
         .then(res => {
-          console.log("getData", res);
-          this.foodlist = this.foodlist.concat(res.data.studerlist);
-          this.pageNo++;
-          this.toast.close();
-          //					this.bottomStatus='loading';
-          // console.log(this.foodlist.length);
-          //					if(this.foodlist.length==72){
-          //						this.allLoaded=true;
-          //					}else{
-          //						this.allLoaded=false;
-          //					}
+          if (res.msg == 200) {
+            this.foodlist = this.foodlist.concat(res.data.data);
+            this.pageNo++;
+            this.toast.close();
+            if (res.data.data.length == 0) {
+              this.allLoaded = true;
+            }
+          }
         })
         .catch(err => {
           console.log(err);
-          this.toast.close();
         });
-      //				this.bottomStatus='';
-    }
+    },
   },
   created() {
     // this.getData()
@@ -128,22 +124,25 @@ export default {
           overflow: hidden;
           position: relative;
           img {
-            position: absolute;
             width: 100%;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            margin: auto;
+            height: 100%;
+            // position: absolute;
+            // width: 100%;
+            // top: 0;
+            // left: 0;
+            // right: 0;
+            // bottom: 0;
+            // margin: auto;
           }
         }
         .name {
           text-align: center;
           color: #333;
-          .fs(15);
+          .fs(14);
           .h(15);
           .lh(15);
           .mb(11);
+          overflow: hidden;
           font-weight: 700;
         }
         .user {
@@ -163,6 +162,10 @@ export default {
               position: absolute;
               width: 100%;
             }
+          }
+          .r {
+            .mr(10);
+            .w(132);
           }
           .username {
             color: #696969;

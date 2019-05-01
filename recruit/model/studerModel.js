@@ -5,9 +5,9 @@ let Schema=mongoose.Schema;//使用mongoose的Schema方法
 
 let studerSchema=new Schema({       //实例化这个方法
     name:{type:String}, //姓名
-    xuehao:{type:String},//学号
+    xuehao:{type:String,required:true,},//学号
     mima:{type:String},  //密码
-    email:{type:String,required:true},  
+    email:{type:String},  
     pass:{type:String},
     language:{type:String},//精通语言
     major:{type:String},//专业
@@ -15,6 +15,7 @@ let studerSchema=new Schema({       //实例化这个方法
     like:{type:String},  //理想薪资
     xueli:{type:String}, //学历
     city:{type:String},//城市
+    imgUrl:{type:String},//照片
 
 })
 

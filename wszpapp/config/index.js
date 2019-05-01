@@ -15,6 +15,11 @@ module.exports = {
         target: 'http://localhost:9000',
         changeOrigin: true,
         pathRewrite: { '^/api': '' }
+      },
+      '/wl': {
+        target: 'http://api.haitou.cc',
+        changeOrigin: true,
+        pathRewrite: { '^/wl': '' }
       }
     },
 

@@ -1,7 +1,7 @@
 <template>
   <div class="share">
     <ul>
-      <li v-for="(item,index) in list" @click="show" :key="index">
+      <li v-for="(item,index) in list" @click="show(item.href)" :key="index">
         <a href="JavaScript:;">
           <img :src="item.src">
           <span>{{item.name}}</span>
@@ -12,8 +12,8 @@
       <a href="JavaScript:;">
         <img class="sun" src="../../../../static/day.a9330de.png">
         <div class="record-c fl">
-          <p>早餐记录</p>
-          <span>9人参与</span>
+          <p>面试邀约</p>
+          <span>{{count}}条邀请记录</span>
         </div>
         <div class="record-r fr">
           <div class="iml pad fl">
@@ -43,21 +43,60 @@ export default {
   data() {
     return {
       list: [
-        { src: "../../../../static/btn1.e463d25.png", name: "一日三餐" },
-        { src: "../../../../static/btn5.5e8eaa7.png", name: "秀美食" },
-        { src: "../../../../static/btn6.1602d57.png", name: "热门活动" },
-        { src: "../../../../static/btn4.a98b697.png", name: "新人菜谱" }
-      ]
+        {
+          src: "../../../../static/image/a2.jpg",
+          name: "申请记录",
+          href: "apply"
+        },
+        {
+          src: "../../../../static/image/a1.jpg",
+          name: "计算机类",
+          href: "computer"
+        },
+        {
+          src: "../../../../static/image/a3.jpg",
+          name: "热门校招",
+          href: "list"
+        },
+        {
+          src: "../../../../static/image/a4.jpg",
+          name: "求职攻略",
+          href: "foodbook"
+        }
+      ],
+      count: 0
     };
   },
   methods: {
-    show() {
+    show(href) {
       if (window.localStorage.getItem("user")) {
-        this.$router.push("/list");
+        this.$router.push(href);
       } else {
         this.$router.push("dl/login");
       }
-    }
+    },
+    getData() {
+      if (window.localStorage.getItem("info")) {
+        const { xuehao } = JSON.parse(window.localStorage.getItem("info"));
+        this.$axios
+          .post("/api/api/delivery/finddelivery", {
+            xuehao,
+            pass: 1
+          })
+          .then(res => {
+            if (res.msg == "ok") {
+              this.count = res.data.length;
+            }
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      }
+    },
+
+  },
+  created(){
+    this.getData()
   }
 };
 </script>

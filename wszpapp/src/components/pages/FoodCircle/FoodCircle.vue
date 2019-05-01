@@ -1,96 +1,84 @@
 <template>
-	<div class="foodcircle">
-		<div class="top">
-			美食圈
-			<i class="iconfont icon-xiaoxi"></i>
-		</div>
-		<ul class="conter">
-			<li @click="selItem(index,item.path)" v-for="(item,index) in con" :key="index">
-				{{item.name}}
-				<i :class="index==now?'iconfont icon-icon-solidArrow-up':''"></i>
-			</li>
-		</ul>
-		<ul class="cont">
-			<li @click="selClass(index,item.url)" v-for="(item,index) in cont" :key="index" :class="index==nows?'hl':''" >
-        {{item.name}}
-				<i :class="index==nows?'iconfont icon-icon-solidArrow-right':''"></i>
-			</li>
-		</ul>
-    <router-view :urls="this.url" ref="list"></router-view>
-		<!-- <router-view/> -->
+  <div class="foodcircle">
+    <div class="top">
+      消息
+      <i class="iconfont icon-xiaoxi"></i>
+    </div>
+    <ul
+      class="conter"
+      v-infinite-scroll="loadMore"
+      infinite-scroll-disabled="loading"
+      infinite-scroll-distance="10"
+    >
+      <li @click="selItem(item._id)" v-for="(item,index) in list" :key="index">
+        <div class="tops">{{item.qname}}</div>
+        <div class="bottom">
+          <div class="left">
+            <span>{{item.title}}</span>
+            <span></span>
+            <span></span>
+          </div>
+          <div class="right">{{item.date}}</div>
+        </div>
+      </li>
+    </ul>
     <Footer></Footer>
-	</div>
+  </div>
 </template>
 
 <script>
-import Tzlist from "./Tzlist";
-import Xlist from "./Xlist";
-import Footer from '../../commons/Footer';
+import Vue from "vue";
+import { Toast, InfiniteScroll } from "mint-ui";
+Vue.use(InfiniteScroll);
+import Footer from "../../commons/Footer";
 export default {
   name: "FoodCircle",
   components: {
-    Xlist,Tzlist,Footer
+    Footer
   },
   data() {
     return {
-      con: [{name:"帖子", path:'/foodcircle/tzlist'},{name:"秀美食",path:'/foodcircle/xlist'}],
-      cont: [{name:"热门",url:'hot'}, {name:"最新",url:'new'}, {name:"关注",url:'follow'}],
-      now:0,
-      nows:0,
-      url:'hot'
+      now: 0,
+      nows: 0,
+      url: "hot",
+      list: []
     };
   },
-  methods:{
-    selItem(index,path){
-      this.nows=0;
-      this.now=index;
-      this.$router.push(path)
-      // if(index==0){
-      //   // this.$router.push({path:'/foodcircle/tzlist',query:{url:'hot'}});
-      //   this.$router.push();
-      //   this.url='hot'
-      // }else{
-      //   this.$router.push();
-      // }
-      
+  methods: {
+    selItem(href) {
+      this.$router.push({ path: "/msgd", query: { id: href } });
     },
-//     checkRouterLocal(path) {
-//  // 查找当前路由下标高亮
-//  this.now = this.con.findIndex(item => item.path === path);
-// },
-
-    selClass(index,url){
-      this.nows=index;
-      this.url=url;
-      this.$refs.list.$emit('tzlist',url)
-      
-      // 
-      // this.$router.push({
-      //   path:'/foodcircle/tzlist',
-      //   query:{
-      //     url:url
-      //   }
-      // })
+    loadMore() {
+      // this.getData();
+    },
+    getData() {
+      // this.toast = Toast({
+      //   message: "loading",
+      //   iconClass: "fa-spin fa fa-spinner"
+      // });
+      const { xuehao } = JSON.parse(window.localStorage.getItem("info"));
+      this.$axios
+        .post("/api/api/delivery/finddelivery", {
+          xuehao,
+          pass: 1
+        })
+        .then(res => {
+          console.log(res.data);
+          if (res.msg == "ok") {
+            // this.list = this.list.concat(res.data);
+            this.list = res.data.reverse();
+            // this.pageNo++;
+            // this.toast.close();
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
     }
   },
-//   watch: {
-//  "$route"() {
-//  // 获取当前路径
-//  let path = this.$route.path;
-//  // 检索当前路径
-//  this.checkRouterLocal(path);
-//  }
-// },
 
-  created(){
-    this.$router.push('/foodcircle/tzlist')
-    // {
-    //     name:'Tzlist',
-    //     query:{
-    //       url:'hot'
-    //     }
-    //   }
-    
+  created() {
+    this.getData();
   }
 };
 </script>
@@ -98,7 +86,8 @@ export default {
 <style lang="less" scoped>
 @import "../../../styles/main.less";
 .foodcircle {
-  .padding(43, 0, 49, 0);
+  .padding(43, 0, 700, 0);
+  background: rgba(243, 242, 242, 0.938);
   .top {
     width: 100%;
     text-align: center;
@@ -124,45 +113,32 @@ export default {
   }
   .conter {
     width: 100%;
-    .fs(16);
     display: flex;
+    flex-direction: column;
     text-align: center;
     color: #333;
-    background: #fff;
     li {
-      .h(50);
-    .lh(50);
-      width: 50%;
-      position: relative;
-      i {
-        color: #e7693f;
-        .fs(18);
-        position: absolute;
-        .bottom(-22);
-        .left(85);
+      .h(60);
+      background: #fff;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      .margin(10, 14, 0, 14);
+      .padding(0, 10, 0, 10);
+      border-radius: 5px;
+      .tops {
+        color: black;
+        .fs(14);
       }
-    }
-  }
-  .cont {
-    .h(38);
-    .lh(38);
-    .fs(15);
-    color: #333;
-    display: flex;
-    text-align: center;
-    background: #e7693f;
-    .hl {
-      color: #fff;
-    }
-    li {
-      width: 33%;
-      position: relative;
-      i {
-        color: #e7693f;
-        .fs(18);
-        position: absolute;
-        .bottom(-20);
-        .left(52);
+      .bottom {
+        .mt(5);
+        width: 100%;
+        display: flex;
+        color: #999;
+        justify-content: space-between;
+        align-items: center;
+        .fs(12);
       }
     }
   }

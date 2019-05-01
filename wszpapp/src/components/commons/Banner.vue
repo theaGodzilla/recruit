@@ -74,7 +74,7 @@ export default {
 .banner {
   .bh {
     .w(375);
-    .h(215);
+    .h(180);
     img {
       width: 100%;
     }

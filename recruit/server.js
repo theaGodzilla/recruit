@@ -41,6 +41,33 @@ app.use('/api/qiy', qiy);
 const sss = require('./router/sss.js');
 app.use('/api/sss', sss);
 
+//实习生
+const resume = require('./router/resume.js');
+app.use('/api/resume', resume);
+
+//投递管理
+const delivery = require('./router/delivery.js');
+app.use('/api/delivery', delivery);
+
+// 收藏
+const collection = require('./router/collection.js');
+app.use('/api/collection', collection);
+
+// 足迹
+const footprint = require('./router/footprint.js');
+app.use('/api/footprint', footprint);
+
+// 求职攻略
+const strategy = require('./router/strategy.js');
+app.use('/api/strategy', strategy);
+
+// 攻略收藏
+const strat = require('./router/strat.js');
+app.use('/api/strat', strat);
+
+// 攻略收藏
+const comment = require('./router/comment.js');
+app.use('/api/comment', comment);
 
 const upload = require('./router/upload.js')
 const com = require('./router/com.js')

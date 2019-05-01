@@ -2,10 +2,10 @@ const mongoose = require('mongoose');
 let Schema = mongoose.Schema;
 
 let sssSchema = new Schema({
-  id: { type: Number, required: true },
-  title: { type: String, required: true },
-  imageUrl: { type: String, required: true },
-  city: { type: String, required: true },
+  id: { type: Number },
+  title: { type: String },
+  imageUrl: { type: String },
+  city: { type: String },
   companyFullname: { type: String, },
   companyShortname: { type: String, },
   days_a_week: { type: String, },
@@ -21,6 +21,7 @@ let sssSchema = new Schema({
   categoryNames: { type: Array, },
   max_salary: { type: Number, },
   min_salary: { type: Number, },
+  content: { type: String, },
 })
 
 

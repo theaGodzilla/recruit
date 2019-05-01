@@ -12,9 +12,7 @@ Router.post('/findqiy', (req, res) => {
     let target = Number(req.body.target);//共几页
     let total = 0;
     let nowtime = req.body.nowtime;
-    // console.log(nowtime)
     qiyModel.find()
-
         // 第一页3条数据,跳过第一页的3条数据
         // console.log(req.body)
         .then((res) => {
@@ -100,14 +98,14 @@ Router.post('/yao', (req, res) => {
 
 //根据id获取数据
 Router.post('/byId', (req, res) => {
-    let id = req.body.ID;
+    let id = req.body.id;
     // console.log(id)
     qiyModel.find({ _id: id })
         .then((data) => {
             res.send(utli.sendData(0, '查询成功', data))
         })
         .catch((err) => {
-            res.send(utli, sendData(-1, '查询失败'), null)
+            res.send(utli.sendData(-1, '查询失败', null))
         })
 })
 

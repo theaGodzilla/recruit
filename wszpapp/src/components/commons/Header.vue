@@ -26,10 +26,12 @@ export default {
     show() {
       if (window.localStorage.getItem("user") == null) {
         this.$router.push("dl/login");
+      }else{
+        this.$router.push('/foodCircle')
       }
     },
     handl() {
-      this.$router.push("/list");
+      this.$router.push("/search");
     }
   }
 };

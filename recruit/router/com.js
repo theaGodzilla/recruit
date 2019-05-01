@@ -105,6 +105,7 @@ Router.post('/getcomId', (req, res) => {
 //根据id删除多条商品信息
 Router.post('/deletemanycom', (req, res) => {
 	let arr = req.body.ids;
+	console.log(arr);
 	var ids = JSON.parse(arr)
 	console.log(ids.ids);
 	if (arr.length <= 0) { res.send(util.sendData(-1, '参数错误', null)) }

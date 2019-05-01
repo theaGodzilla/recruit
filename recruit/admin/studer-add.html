@@ -88,6 +88,18 @@
 				</div>
 			</div>
 
+			<div class="row cl">
+				<label class="form-label col-xs-4 col-sm-2">学生照片：</label>
+				<div class="formControls col-xs-8 col-sm-9">
+					<div class="uploader-thum-container">
+						<form enctype="multipart/form-data" method="post">
+							<input type="file" name='image' id="imagelist">
+						</form>
+						<img src="" id="tmpimg">
+						<button id='filebtn'> 上传</button>
+					</div>
+				</div>
+			</div>
 
 			<div class="row cl">
 				<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
@@ -117,7 +129,7 @@
 	<script type="text/javascript" src="lib/ueditor/1.4.3/lang/zh-cn/zh-cn.js"></script>
 	<script type="text/javascript">
 		$(function () {
-
+			var uploaded=false//图片没有上传
 			let OL_Action_Root = "http://localhost:9000"
 			//添加学生
 			function addstuder() {
@@ -144,7 +156,36 @@
 
 			}
 			$('#addbtn').on('click', addstuder)
+			//图片
+			function Req_ajax() {
 
+				console.log($("#imagelist")[0].files)
+				var formData = new FormData()//创建
+				console.log(formData)
+				// formData.append("name",'wangyi');
+
+				// console.log(formData.get('name'))//通过get获取formdata 值
+				formData.append("test", $("#imagelist")[0].files[0])
+				console.log(formData.get("test"))
+				$.ajax({
+					url: OL_Action_Root + '/api/upload/img',
+					type: 'POST',
+					data: formData,
+					cache: false,
+					contentType: false,
+					processData: false,
+					success: function (data) {
+						if (data.err == 0) {
+							$('img').attr('src', 'http://127.0.0.1:9000/' + data.path)
+							uploaded = data.path
+						}
+					},
+					error: function (jqXHR, textStatus, errorThrown) {
+						document.getElementById("status").innerHTML = "<span style='color:#EF0000'>连接不到服务器，请检查网络！</span>";
+					}
+				});
+			}
+			$('#filebtn').on('click', Req_ajax)
 		})
 
 

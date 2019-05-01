@@ -1,5 +1,6 @@
 <template>
   <div class="list">
+    <Head title="热门校招" ></Head>
     <div class="header">
       <div class="box">
         <div class="sou">
@@ -28,7 +29,7 @@
     >
       <router-link
         tag="li"
-        :to="{path:'details',query:{bookId:item.bookId,bookUserId:item.bookUserId}}"
+        :to="{path:'details',query:{id:item.id}}"
         v-for="(item,index) in list"
         :key="index"
       >
@@ -40,12 +41,12 @@
           <div class="desc confs">{{item.companyFullname}}</div>
           <div class="user confs">
             {{item.city}}
-            <span>{{item.days_a_week}}</span>
+            <span>薪资：{{item.salaryText}}</span>
           </div>
-          <div class="look confs">
+          <!-- <div class="look confs">
             <i class="iconfont icon-liulan"></i>
             {{item.bookPageViews==null?0:item.bookPageViews}}
-          </div>
+          </div>-->
         </div>
       </router-link>
     </ul>
@@ -57,31 +58,33 @@
 <script>
 import Vue from "vue";
 import { Toast, InfiniteScroll } from "mint-ui";
+import Head from "./Head";
 Vue.use(InfiniteScroll);
 export default {
-  name: "Header",
-  components: {},
+  name: "List",
+  components: {Head},
   data() {
     return {
-      options: ["综合", "收藏最多", "投递最多"],
+      options: ["默认排序", "收藏最多", "投递最多"],
       now: 0,
       list: [],
-      pageNo: 1,
+      pageNo: 0,
       cont: null,
-      type: "综合",
+      type: "默认排序",
       isok: false
     };
   },
   methods: {
     show() {
       this.list = [];
+      this.pageNo = 0;
       this.$router.push({ path: "list", query: { searchKey: this.cont } });
       this.getData();
     },
     selItem(index, type) {
       this.now = index;
       this.type = type;
-      this.pageNo = 1;
+      this.pageNo = 0;
       this.list = [];
       this.getData();
     },
@@ -108,12 +111,6 @@ export default {
             this.pageNo++;
             this.toast.close();
           }
-
-          // if (this.list.length == 0) {
-          //   this.isok = !this.isok;
-          // } else {
-          //   this.isok = false;
-          // }
         })
         .catch(err => {
           console.log(err);
@@ -143,7 +140,7 @@ export default {
     .h(44);
     .box {
       position: fixed;
-      top: 0;
+      .top(44);
       left: 0;
       right: 0;
       z-index: 100;
@@ -218,6 +215,7 @@ export default {
     li {
       display: flex;
       justify-content: flex-start;
+      // border-bottom: 1px solid #ccc;
       .mb(20);
       .img {
         .w(125);
@@ -246,7 +244,7 @@ export default {
         .name {
           .mt(5);
           .mb(5);
-          .fs(19);
+          .fs(14);
           font-weight: 700;
           color: #333;
         }

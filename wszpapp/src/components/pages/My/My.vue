@@ -4,13 +4,13 @@
     <div class="btndl" @click="login">
       <a class="me_a">
         <div class="logo">
-          <img src="../../../../img/logo.05c4234.png" alt>
+          <img :src="img?img:require('../../../../img/timg.jpg')" alt>
         </div>
         <p class="dianji">{{name}}</p>
       </a>
     </div>
     <ul class="meul">
-      <li class="meli" v-for="(item,index) in classes" :key="index">
+      <li class="meli" v-for="(item,index) in classes" :key="index" @click="goToPage(item.href)">
         <div class="medd">
           <div class="meff">
             <i :class="item.tubiao"></i>
@@ -44,25 +44,31 @@ export default {
         {
           tubiao: "iconfont icon-weishoucang",
           wenzi: "我的收藏",
-          jiantou: "iconfont icon-fanhui"
+          jiantou: "iconfont icon-fanhui",
+          href: "/collection"
         },
         {
           tubiao: "iconfont icon-zuji-outline",
           wenzi: "我的足迹浏览",
-          jiantou: "iconfont icon-fanhui"
+          jiantou: "iconfont icon-fanhui",
+          href: "/footpr"
         },
         {
-          tubiao: "iconfont icon-cailanzi",
-          wenzi: "我的投递",
-          jiantou: "iconfont icon-fanhui"
+          // tubiao: "iconfont icon-cailanzi",
+          tubiao: "fa fa-file-text-o",
+          wenzi: "我的简历",
+          jiantou: "iconfont icon-fanhui",
+          href: "/resume"
         },
         {
           tubiao: "iconfont icon-daren",
           wenzi: "个人信息",
-          jiantou: "iconfont icon-fanhui"
+          jiantou: "iconfont icon-fanhui",
+          href: "/info"
         }
       ],
-      name: "点击登录或修密码"
+      name: "点击登录或修改密码",
+      img: ""
     };
   },
   computed: {
@@ -77,21 +83,31 @@ export default {
       }
     },
     out() {
-      this.name = "点击登录或注册";
+      this.name = "点击登录或修改密码";
+      this.img = "";
       this.$store.commit("changeLogin", false);
       window.localStorage.removeItem("user");
-      window.localStorage.removeItem("pass");
+      window.localStorage.removeItem("info");
       this.$store.commit("changeSliderShow", false);
       // console.log(window.localStorage.getItem('user'))
+    },
+    goToPage(href) {
+      if (window.localStorage.getItem("user")) {
+        this.$router.push(href);
+      } else {
+        this.$router.push("dl/login");
+      }
     }
   },
   mounted() {},
   created() {
     if (this.$store.state.login) {
       this.name = JSON.parse(window.localStorage.getItem("info")).name;
+      this.img = JSON.parse(window.localStorage.getItem("info")).imgUrl;
       this.$store.commit("changeSliderShow", true);
     } else {
-      this.name = "点击登录或注册";
+      this.img = "";
+      this.name = "点击登录或修改密码";
     }
   }
 };
@@ -106,7 +122,8 @@ export default {
   .me {
     .h(44);
     .w(375);
-    .fs(14);
+    .fs(18);
+    color: #333;
     text-align: center;
     .lh(44);
     border: 1px solid #ccc;
@@ -126,9 +143,9 @@ export default {
       .logo {
         .w(80);
         .h(80);
-
+        overflow: hidden;
         background: #ddd;
-        border-radius: 50px;
+        border-radius: 50%;
         img {
           .h(80);
           .w(80);
@@ -139,7 +156,7 @@ export default {
         color: #333;
         letter-spacing: 2px;
         position: absolute;
-        .w(133);
+        // .w(133);
         .h(17);
         .top(50);
         .left(110);
@@ -149,7 +166,7 @@ export default {
   .meul {
     .w(375);
     .meli {
-      .padding(0, 0, 0, 10);
+      .padding(0, 10, 0, 10);
       list-style: none;
       border-bottom: 1px solid #ccc;
       .w(375);
@@ -186,7 +203,6 @@ export default {
             .w(12);
             .h(54);
             .lh(54);
-            // .padding(5,0,0,0);
             float: right;
             transform: rotate(180deg);
           }

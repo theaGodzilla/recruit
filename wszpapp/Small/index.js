@@ -20,9 +20,9 @@ export default{
 		Vue.component('back-top',BackTop)
 		Vue.directive('scroll-hide',{
 			bind(el,binding,vnode){
-				console.log(el)//自定义指令绑定的节点
-				console.log(binding)//绑定对象
-				console.log(vnode)//虚拟dom
+				// console.log(el)//自定义指令绑定的节点
+				// console.log(binding)//绑定对象
+				// console.log(vnode)//虚拟dom
 				let distance=el.getAttribute('scroll-hide-distance');//获取设定的阀值
 //				console.log(distance)
 				window.addEventListener('scroll',scrollEvent(distance,vnode))

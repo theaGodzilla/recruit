@@ -73,16 +73,12 @@ export default {
         iconClass: "fa-spin fa fa-spinner"
       });
       this.$axios
-        .get("/api/fx2/circle/" + url, {
-          params: {
-            pageNo: 1
-          }
+        .post("/api/api/sss/findSss" + url, {
+          pageSize: 10,
+          target: this.pageNo
         })
         .then(res => {
-          this.list = this.list.concat(res.pager.data);
-          if (res.pager.data.length !== 0) {
-            this.pageNo++;
-          }
+          this.list = this.list.concat(res.data.data);
           this.toast.close();
 
           // console.log(this.list);

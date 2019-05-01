@@ -9,52 +9,99 @@
       </div>
     </div>
     <div class="img">
-      <img :src="list.bookImg" alt>
+      <img :src="list.imageUrl" alt>
     </div>
     <div class="container">
       <div class="con-top">
-        <h2>{{list.bookName}}</h2>
-        <p v-html="list.bookHistory"></p>
+        <h2>{{list.title}}</h2>
+        <!-- <p v-html="list.companyShortname"></p> -->
+        <p>{{list.activeTime.slice(0,10)}}发布</p>
         <div class="con-top-b">
           <div class="left">
             <div class="leftimg">
-              <img :src="list.bookUserImg" alt>
+              <img :src="list.imageUrl" alt>
             </div>
-            <div class="leftname">{{list.bookUserName}}</div>
+            <div class="leftname">{{list.companyShortname}}</div>
           </div>
-          <div class="right">
+          <div @click="vie()" class="right">
             <i class="iconfont icon-mui-icon-add"></i>
-            <span>关注</span>
+            <span>投递</span>
           </div>
         </div>
       </div>
       <div class="con-center">
-        <ul class="title">食材清单
-          <li class="right">加入菜篮子</li>
+        <ul class="title">
+          职位信息
+          <li class="right" @click="vcoll()">
+            <i class="iconfont icon-shoucang"></i>收藏
+          </li>
         </ul>
-        <div v-for="(item,index) in list.datas" :key="index" class="con-center-cont">
-          {{item.dataName}}
-          <div class="num">{{item.dataAmmount}}</div>
+        <div class="con-center-cont">
+          工作时间：
+          <div class="num">{{list.days_a_week}}</div>
+        </div>
+        <div class="con-center-cont">
+          学历要求：
+          <div class="num">{{list.educationText}}</div>
+        </div>
+        <div class="con-center-cont">
+          薪资：
+          <div class="num">{{list.salaryText}}</div>
+        </div>
+        <div class="con-center-cont">
+          职位类别：
+          <div class="num">{{list.categoryNames.join('，')}}</div>
+        </div>
+        <div class="con-center-cont">
+          公司规模：
+          <div class="num">{{list.workerNumber}}</div>
         </div>
       </div>
-      <div class="con-steps title">烹饪步骤</div>
-      <ul class="con-img">
-        <li v-for="(item,index) in list.steps" :key="index">
-          <p>步骤
+      <!-- <div class="con-steps title">职位描述</div> -->
+      <!-- <ul class="con-img">
+        <li v-for="(item,index) in list.categoryNames" :key="index">
+          <p>
+            {{item}}
             <span>{{index+1}}</span>
-            /{{list.steps.length}}
+            /{{item.length}}
           </p>
           <div class="con-imgs">
-            <img :src="item.stepImg" alt>
+            <img :src="list.imageUrl" alt>
           </div>
-          <div class="con-imgs-desc">{{item.stepDesc}}</div>
+          <div class="con-imgs-desc">{{item.activeTime}}</div>
         </li>
-      </ul>
+      </ul>-->
       <div class="con-tips">
-        <div class="title">小贴士</div>
-        <p v-html="list.bookTips"></p>
+        <div class="title">职位描述</div>
+        <!-- <p v-html="list.workerNumber"></p> -->
+        <p>
+          1、良好的沟通能力、团队合作精神和工作责任心；
+          <br>2、 较强的学习能力，能够不断自我激励，不断进步；
+          <br>3、工作踏实、细致、有耐心，能承受较大的工作压力；
+          <br>4、有强烈的责任感和良好的团队合作精神，工作积极主动，善于沟通；
+          <br>5、具有较强的执行力，能够按照公司编码规范完成工作任务；
+          <br>6、具有良好的理解能力、高度的责任心、优秀的学习能力；具备敏锐的互联网产品感知能力；
+          <br>7、有保持学习的习惯，关注业界技术发展动态，乐于分享技术，交流经验；
+          <br>8、具备高度责任心、善于学习、有良好心态、不急不躁；能承受一定的压力；
+        </p>
       </div>
-      <ul class="title">学做这道菜
+      <div class="con-tips">
+        <div class="title">公司福利</div>
+        <!-- <p v-html="list.workerNumber"></p> -->
+        <p>
+          1、具有市场竞争力的薪资待遇；
+          <br>2、灵活的调薪机制，每年1-2次调薪；
+          <br>3、优厚的年终奖金、绩效奖金；
+          <br>4、购买社保；
+          <br>5、带薪年休假、法定节假日等；
+          <br>6、丰富的员工活动、每月团建活动、员工下午茶、生日会；
+          <br>7、员工生日礼物、节假日福利、免费体检、旅游（一年两次）；
+          <br>8、各种晋升机会、各种横向纵向发展空间、优秀人才培养计划；
+          <br>
+        </p>
+      </div>
+      <!-- <ul class="title">
+        公司介绍
         <li class="right">
           <i class="iconfont icon-shoucang"></i>查看全部
         </li>
@@ -62,9 +109,17 @@
       <div class="con-photo">
         <i class="iconfont icon-index"></i>
         学会了吗？学会了就拍照上传吧
+      </div>-->
+      <div class="con-tips">
+        <div class="title">公司介绍</div>
+        <p>{{list.companyFullname}}</p>
       </div>
-      <div class="title">评论</div>
-      <div class="con-comment" v-for="(item,index) in comment" :key="index">
+      <div class="con-tips">
+        <div class="title">工作地址</div>
+        <p>{{list.city}}</p>
+      </div>
+      <!-- <div class="title">工作地址</div> -->
+      <!-- <div class="con-comment" v-for="(item,index) in comment" :key="index">
         <div class="user">
           <div class="left">
             <div class="leftimg">
@@ -78,9 +133,9 @@
         <div class="icon">
           <i class="iconfont icon-pinglun"></i>
         </div>
-      </div>
+      </div>-->
     </div>
-    <transition enter-active-class="fadeInUp delay-zdys" leave-active-class="fadeOutDown">
+    <!-- <transition enter-active-class="fadeInUp delay-zdys" leave-active-class="fadeOutDown">
       <ul class="bottom animated" v-show="show" :key="1">
         <li v-for="(item,index) in bottomlist" :key="index" @click="selcomment(index)">
           <i :class="good==index?hl==true?item.icon+' '+'hl':item.icon:item.icon"></i>
@@ -99,12 +154,13 @@
         </div>
         <div class="right">发布</div>
       </div>
-    </transition>
+    </transition>-->
     <back-top size></back-top>
   </div>
 </template>
 
 <script>
+import { Toast } from "mint-ui";
 export default {
   name: "Details",
   components: {},
@@ -127,24 +183,173 @@ export default {
   },
   methods: {
     getData() {
-      let bookId = this.$route.query.bookId;
-      let bookUserId = this.$route.query.bookUserId;
-      //   console.log(this);
+      const { id } = this.$route.query;
       this.$axios
-        .get("/api/fx2/cookbook/cookbookInfo", {
-          params: {
-            bookId: bookId,
-            bookUserId: bookUserId
-          }
+        .post("/api/api/sss/findsid", {
+          id
         })
         .then(res => {
-          this.list = res.cookBook;
-          this.comment = res.comments;
-          console.log(this.list);
+          if (res.msg == "ok") {
+            this.list = res.data[0];
+            this.vieFoo();
+          }
         })
         .catch(err => {
           console.log(err);
         });
+    },
+    setData() {
+      var myDate = new Date();
+      const date =
+        myDate.getFullYear() +
+        "-" +
+        (myDate.getMonth() + 1) +
+        "-" +
+        myDate.getDate();
+      const { name, xuehao } = JSON.parse(window.localStorage.getItem("info"));
+      this.$axios
+        .post("/api/api/delivery/addr", {
+          jid: xuehao,
+          gid: this.list.id,
+          sname: name,
+          xuehao: xuehao,
+          qname: this.list.companyFullname,
+          title: this.list.title,
+          date: date,
+          pass: 0
+        })
+        .then(res => {
+          if (res.msg == "ok") Toast("投递成功");
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    vie() {
+      if (window.localStorage.getItem("info")) {
+        const { xuehao } = JSON.parse(window.localStorage.getItem("info"));
+        this.$axios
+          .post("/api/api/delivery/getxg", {
+            xuehao,
+            gid: this.list.id
+          })
+          .then(res => {
+            if (res == "yes") {
+              Toast("已投递该职位");
+            } else {
+              this.setData();
+            }
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      } else {
+        Toast("请登录");
+      }
+    },
+    vcoll() {
+      if (window.localStorage.getItem("info")) {
+        const { xuehao } = JSON.parse(window.localStorage.getItem("info"));
+        this.$axios
+          .post("/api/api/collection/getxg", {
+            xuehao,
+            sid: this.list.id
+          })
+          .then(res => {
+            if (res == "yes") {
+              Toast("已收藏");
+            } else {
+              this.addcoll();
+            }
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      } else {
+        Toast("请登录");
+      }
+    },
+    addcoll() {
+      const { xuehao } = JSON.parse(window.localStorage.getItem("info"));
+      this.$axios
+        .post("/api/api/collection/addcoll", {
+          sid: this.list.id,
+          xuehao,
+          qname: this.list.companyFullname,
+          title: this.list.title,
+          type: 1,
+          content: this.list.educationText
+        })
+        .then(res => {
+          if (res.msg == "ok") Toast("收藏成功");
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    setFoo() {
+      var myDate = new Date();
+      const date =
+        myDate.getFullYear() +
+        "-" +
+        (myDate.getMonth() + 1) +
+        "-" +
+        myDate.getDate();
+      const { name, xuehao } = JSON.parse(window.localStorage.getItem("info"));
+      this.$axios
+        .post("/api/api/footprint/addf", {
+          qid: this.list.id,
+          xuehao,
+          qname: this.list.companyFullname,
+          title: this.list.title,
+          content: this.list.city,
+          date,
+          type: 1
+        })
+        .then(res => {
+          if (res.msg == "ok") console.log("fff");
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    vieFoo() {
+      if (window.localStorage.getItem("info")) {
+        const { xuehao } = JSON.parse(window.localStorage.getItem("info"));
+        this.$axios
+          .post("/api/api/footprint/getf", {
+            xuehao,
+            qid: this.list.id
+          })
+          .then(res => {
+            if (res == "yes") {
+              this.delFoo();
+            } else {
+              this.setFoo();
+            }
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      }
+    },
+    delFoo() {
+      if (window.localStorage.getItem("info")) {
+        const { xuehao } = JSON.parse(window.localStorage.getItem("info"));
+        this.$axios
+          .post("/api/api/footprint/delfootprint", {
+            xuehao,
+            qid: this.list.id
+          })
+          .then(res => {
+            if (res.msg == "ok") {
+              this.setFoo();
+            }
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      }
     },
     selcomment(index) {
       if (index <= 1) {
@@ -161,8 +366,6 @@ export default {
   },
   mounted() {},
   created() {
-    // this.bookId = this.$route.query.bookId;
-    // this.bookUserId = this.$route.query.bookUserId;
     this.getData();
   },
   destroy() {}
@@ -199,7 +402,7 @@ export default {
   .img {
     .h(260);
     overflow: hidden;
-    background: skyblue;
+    background: #fff;
     position: relative;
     img {
       position: absolute;
@@ -208,8 +411,7 @@ export default {
       bottom: 0;
       left: 0;
       margin: auto;
-      width: 100%;
-      width: 100%;
+      width: 73%;
     }
   }
   .container {
@@ -218,12 +420,12 @@ export default {
       h2 {
         .margin(10, 0, 12, 0);
         width: 100%;
-        .h(35);
-        .lh(35);
+        .h(28);
+        .lh(28);
         .fs(20);
         font-weight: 700;
         color: #333;
-        text-align: center;
+        // text-align: center;
       }
       p {
         .fs(16);
@@ -281,13 +483,13 @@ export default {
       border-top: 1px solid #ededed;
       border-bottom: 1px solid #ededed;
       .con-center-cont {
-        .padding(0, 38, 0, 23);
-        .h(45);
-        .lh(45);
+        // .padding(0, 38, 0, 23);
+        .h(35);
+        .lh(35);
         .fs(16);
         color: #666;
         display: flex;
-        justify-content: space-between;
+        justify-content: start;
         // width: 100%;
       }
     }

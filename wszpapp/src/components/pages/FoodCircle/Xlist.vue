@@ -1,30 +1,33 @@
 <template>
   <div class="xlist">
+    <div class="wl" v-html="info.info"></div>
     <ul
       class="list-contain"
       v-infinite-scroll="loadMore"
       infinite-scroll-disabled="loading"
       infinite-scroll-distance="10"
     >
+    
       <li v-for="(item,index) in list" :key="index">
         <div class="img">
-          <img :src="item.shareImg">
+          <img :src="item.imageUrl">
         </div>
         <div class="name">
           <div class="left">
-            <img :src="item.shareUserImg">
+            <img :src="item.imageUrl">
           </div>
-          <div class="right">{{item.shareUserName}}</div>
+          <div class="right">{{item.title}}</div>
         </div>
-        <div class="desc">{{item.shareThene}}</div>
+        <div class="desc">{{item.city}}</div>
         <div class="praise">
           <div class="c">
             <i class="iconfont icon-aixinon"></i>
-            <span>{{item.shareLikeNum}}</span>
+            <span>{{item.title}}</span>
           </div>
         </div>
       </li>
     </ul>
+    
     <!-- <Bottom></Bottom> -->
   </div>
 </template>
@@ -32,6 +35,7 @@
 <script>
 import Bottom from "../../commons/Bottom";
 import Vue from "vue";
+import Axios from "axios";
 import { Toast, InfiniteScroll } from "mint-ui";
 Vue.use(InfiniteScroll);
 import { Spinner } from "mint-ui";
@@ -43,31 +47,34 @@ export default {
     return {
       name: "我是foodcircle页面",
       list: [],
-      pageNo: 1
+      pageNo: 1,
+      info:{}
     };
   },
   methods: {
     loadMore() {
-      this.getData();
+      // this.getData();
     },
     getData() {
-      this.toast = Toast({
-        message: "loading",
-        iconClass: "fa-spin fa fa-spinner"
-      }); //发起请求
+      // this.toast = Toast({
+      //   message: "loading",
+      //   iconClass: "fa-spin fa fa-spinner"
+      // }); //发起请求
       this.$axios
-        .get("/api/fx2/share/shareFoodCircle", {
+        .get("/wl/mjfx/view", {
           params: {
-            pageNo: this.pageNo,
-            searchType: "最新"
-            // %E6%9C%80%E6%96%B0
+            client: "m",
+            encrypt: 0,
+            id: 4751
           }
         })
         .then(res => {
-          this.list = this.list.concat(res.pager.data);
-          this.pageNo++;
-          this.toast.close();
-          console.log(this.list);
+          console.log(res.info);
+          this.info=res.info;
+          // this.list = this.list.concat(res.data.data); //%23
+          // this.pageNo++;
+          // this.toast.close();
+          // console.log(this.list);
         })
         .catch(err => {
           this.toast.close();
@@ -76,7 +83,7 @@ export default {
     }
   },
   created() {
-    // this.getData();
+    this.getData();
   }
 };
 </script>
@@ -84,7 +91,14 @@ export default {
 <style lang="less" scoped>
 @import "../../../styles/main.less";
 .xlist {
-  .padding(28, 25, 0, 25);
+  // .padding(28, 25, 0, 25);
+  .wl{
+    .lh(22);
+    // line-height: 22px;
+    width: 100%;
+    color: #555;
+    word-wrap: break-word;
+  }
   ul {
     display: flex;
     flex-wrap: wrap;

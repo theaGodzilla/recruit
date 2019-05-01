@@ -9,6 +9,13 @@ import  store from './store/index.js'
 import App from './App'
 import router from './router'
 
+// import './assets/css/indexicon.css'
+// import './assets/css/font-awesome.css'
+import 'mint-ui/lib/style.css'
+// import './assets/css/globle.css'
+
+Vue.config.productionTip = false
+
 //引入自研ui框架
 import Small from '../Small'
 Vue.use(Small)//调用模块里的install方法 并且将vue实例进行传递

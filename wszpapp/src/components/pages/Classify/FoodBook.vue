@@ -1,49 +1,47 @@
 <template>
   <div class="foodbook clearfix">
     <ul class="conlist">
-      <li
-        :class="index==now?'hl':''"
-        @click="selItem(index,item.left[0].category)"
+      <li>
+        求职攻略
+      </li>
+    </ul>
+    <ul
+      class="foodlist"
+      v-infinite-scroll="loadMore"
+      infinite-scroll-disabled="loading"
+      infinite-scroll-distance="10"
+    >
+      <router-link
+        tag="li"
+        :to="{path:'detailstart',query:{id:item.id}}"
         v-for="(item,index) in list"
         :key="index"
       >
-        {{item.top}}
-        <i :class="index==now?'iconfont icon-icon-solidArrow-up':''"></i>
-      </li>
-    </ul>
-    <div class="box">
-      <ul class="leftlist">
-        <li
-          :class="idx==nows?'hll':''"
-          v-for="(item,idx) in list[now].left"
-          :key="idx"
-          @click="selCla(idx,item.category)"
-        >
-          <i :class="item.icon"></i>
-          {{item.name}}
-          <!--{{item.category}}-->
-        </li>
-      </ul>
-    </div>
-    <ul class="rightlist fr">
-      <li v-for="(item,index) in name" :key="index">
-        <div class="classlist">
-          <div class="tit">{{item.category3}}</div>
-          <ul>
-            <li
-              @click="$router.push({path:'list',query:{searchKey:item}})"
-              v-for="(item,index) in item.category4"
-              :key="index"
-            >{{item}}</li>
-          </ul>
+        <div class="title">
+          <div class="name">{{item.title}}</div>
+          <div class="desc confs">{{item.infoLite.slice(0,51)}}...</div>
+          <div class="user confs">
+            {{item.year}} {{item.companys[0].name}}
+            <span><i class="fa fa-eye" aria-hidden="true"></i> {{item.count}}</span>
+          </div>
+          <!-- <div class="look confs">
+            <i class="iconfont icon-liulan"></i>
+            {{item.bookPageViews==null?0:item.bookPageViews}}
+          </div>-->
         </div>
-      </li>
+        <div class="img">
+          <img :src="item.image" alt>
+        </div>
+      </router-link>
     </ul>
     <Footer></Footer>
   </div>
 </template>
 
 <script>
+import Vue from "vue";
+import { Toast, InfiniteScroll } from "mint-ui";
+Vue.use(InfiniteScroll);
 import Footer from "../../commons/Footer";
 export default {
   name: "FoodBook",
@@ -52,62 +50,14 @@ export default {
   },
   data() {
     return {
-      list: [
-        {
-          top: "食材",
-          left: [
-            {
-              icon: "iconfont icon-shucai",
-              name: "蔬菜类",
-              category: "vegetable"
-            },
-            { icon: "iconfont icon-rouqin", name: "畜肉类", category: "meat" },
-            { icon: "iconfont icon-yu", name: "水产品", category: "products" },
-            { icon: "iconfont icon-fan", name: "米面豆乳", category: "flour" },
-            { icon: "iconfont icon-dan", name: "禽蛋类", category: "egg" },
-            {
-              icon: "iconfont icon-shuiguo",
-              name: "水果类",
-              category: "fruit"
-            },
-            {
-              icon: "iconfont icon-chufangtiaowei",
-              name: "调味品",
-              category: "condiment"
-            }
-          ]
-        },
-        {
-          top: "菜谱",
-          left: [
-            { icon: "iconfont icon-cai", name: "菜式", category: "dishes" },
-            {
-              icon: "iconfont icon-shaozikuaizi",
-              name: "菜系",
-              category: "caixi"
-            },
-            {
-              icon: "iconfont icon-renqun",
-              name: "人群功效",
-              category: "effect"
-            },
-            { icon: "iconfont icon-index", name: "场景", category: "scene" },
-            {
-              icon: "iconfont icon-pengrenzhong",
-              name: "烹饪方法",
-              category: "method"
-            },
-            { icon: "iconfont icon-kouwei", name: "口味", category: "taste" }
-          ]
-        }
-      ],
-      name: [],
+      list: [],
       now: 0,
       nows: 0,
       category: "vegetable"
     };
   },
   methods: {
+    loadMore() {},
     selCla(idx, id) {
       this.nows = idx;
       this.category = id;
@@ -117,14 +67,10 @@ export default {
     getData() {
       console.log(this);
       this.$axios
-        .get("/api/fx2/category2/show", {
-          params: {
-            category: this.category
-          }
-        })
+        .post("/api/api/strat/findstrat", {})
         .then(res => {
-          this.name = res.category;
-          console.log(this.name);
+          console.log(res.data)
+          this.list = res.data;
         })
         .catch(err => {
           console.log(err);
@@ -165,6 +111,7 @@ export default {
     border-bottom: 1px solid #ededed;
     display: flex;
     justify-content: center;
+    z-index: 10;
     .hl {
       color: #e7693f;
     }
@@ -174,7 +121,7 @@ export default {
       text-align: center;
       .lh(43);
       .h(43);
-      .fs(16);
+      .fs(18);
       position: relative;
       i {
         color: #e7693f;
@@ -185,67 +132,65 @@ export default {
       }
     }
   }
-  .box {
-    position: fixed;
-    .top(44);
-    left: 0;
-    .w(90);
-    .h(576);
-    overflow: auto;
-    /*textarea: hidden;*/
-    .leftlist {
-      /*.h(9000);*/
-      .hll {
-        .fs(14);
-        background: #f2f2f2;
-        color: #e7693f;
-      }
-      li {
-        background: #fff;
-        color: #999;
-        display: flex;
-        justify-content: center;
-        flex-direction: column;
-        align-items: center;
-        .h(90);
-        .w(90);
-        .fs(13);
-        i {
-          .fs(28);
-        }
-      }
-    }
-  }
-  .rightlist {
-    .w(285);
+  .foodlist {
+    .padding(0, 15, 0, 15);
     li {
-      .classlist {
-        .padding(20, 0, 0, 0);
-        width: 100%;
-        .tit {
-          .fs(14);
-          font-weight: 900;
-          color: #333;
-          text-align: center;
-          .margin(0, 0, 20, 0);
-        }
-        ul {
+      .padding(10, 0, 10, 0);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #ccc;
+      // .mb(20);
+      .img {
+        .w(110);
+        .h(100);
+        // .mr(10);
+        // background: skyblue;
+        position: relative;
+        img {
+          position: absolute;
+          top: 0;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          margin: 0 auto;
+          z-index: -1;
           width: 100%;
-          /*display:flex;*/
-          /*justify-content: center;*/
-          align-content: flex-start;
+          height: 100%;
+        }
+      }
+      .title {
+        .w(225);
+        .confs {
+          width: 100%;
+          .fs(14);
+          color: #666;
+        }
+        .name {
+          .mt(5);
+          .mb(5);
+          .fs(14);
+          font-weight: 700;
+          color: #333;
+        }
+        .desc {
+          // .mb(16);
+          // .h(19);
+          .fs(12);
+          overflow: hidden;
+        }
+        .user {
           display: flex;
-          /*justify-content:space-between;*/
-          flex-wrap: wrap;
-          li {
-            .margin(0, 0, 15, 14);
-            .w(74);
-            .h(33);
-            .lh(33);
-            .fs(14);
-            text-align: center;
-            border: 1px solid #ededed;
-            border-radius: 4px;
+          color: #e7693f;
+          justify-content: space-between;
+          span {
+            color: #e7693f;
+          }
+        }
+        .look {
+          i {
+            .mr(5);
+            color: #e7693f;
           }
         }
       }

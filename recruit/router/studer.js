@@ -11,8 +11,8 @@ const utli = require('../admin/utli/utli.js');
 //插入学生的信息    (保留))
 Router.post('/studer', (req, res) => {
 	// console.log(req)
-	let { name, xuehao, mima, email, language, major, job, like, city } = req.body;
-	studerModel.insertMany({ name, xuehao, mima, email, language, major, job, like, city })
+	let { name, xuehao, mima, email, language, major, job, like, city,imgUrl } = req.body;
+	studerModel.insertMany({ name, xuehao, mima:'123456', email, language, major, job, like, city,imgUrl })
 		.then((data) => {
 			// console.log(data)
 			res.send(utli.sendData(0, '数据插入成功', data));
@@ -67,7 +67,6 @@ Router.post('/sreg', (req, res) => {
 	let { xuehao, mima } = req.body;
 	studerModel.find({ xuehao, mima })
 		.then((data) => {
-			console.log(data)
 			if (data.length >= 1) { return res.send(utli.sendData(0, 200, data)) }
 			res.send('登录失败')
 		})
@@ -93,7 +92,7 @@ Router.post('/uppass', (req, res) => {
 			res.send(utli.sendData(0, 200, data))
 		})
 		.catch((err) => {
-			res.send(utli, sendData(-1, '更新失败', null))
+			res.send(utli.sendData(-1, '更新失败', null))
 		})
 })
 
@@ -157,7 +156,7 @@ Router.post('/upstuder', (req, res) => {
 			res.send(utli.sendData(0, '已更新', null))
 		})
 		.catch((err) => {
-			res.send(utli, sendData(-1, '更新失败', null))
+			res.send(utli.sendData(-1, '更新失败', null))
 		})
 
 
@@ -183,7 +182,7 @@ Router.post('/upID', (req, res) => {
 			res.send(utli.sendData(0, '已更新', null))
 		})
 		.catch((err) => {
-			res.send(utli, sendData(-1, '更新失败', null))
+			res.send(utli.sendData(-1, '更新失败', null))
 		})
 })
 
