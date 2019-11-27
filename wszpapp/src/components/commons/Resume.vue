@@ -53,14 +53,17 @@ export default {
       }
     },
     addResume() {
+      console.log(this.info);
+      console.log(this.sid);
       this.$axios
         .post("/api/api/resume/addresume", {
           info: this.info,
           sid: this.sid
         })
         .then(res => {
-          if (res.msg == 200) {
+          if (res.msg == 'ok') {
             Toast("添加成功");
+            this.getDate();
           }
         })
         .catch(err => {
@@ -77,6 +80,7 @@ export default {
           this.info = res.data[0];
           if (res.err === 0) {
             Toast("修改成功");
+             this.getDate();
           }
         })
         .catch(err => {
@@ -89,9 +93,12 @@ export default {
           id: this.sid
         })
         .then(res => {
-          if (res.msg == "ok") {
+          console.log(res);
+          console.log(res.data.length);
+          if (res.data.length > 0) {
             this.isOk = true;
             this.info = res.data[0];
+            window.localStorage.setItem("resume", JSON.stringify(this.info));
           } else {
             this.isOk = false;
           }

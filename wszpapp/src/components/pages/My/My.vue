@@ -88,6 +88,7 @@ export default {
       this.$store.commit("changeLogin", false);
       window.localStorage.removeItem("user");
       window.localStorage.removeItem("info");
+      window.localStorage.removeItem("resume");
       this.$store.commit("changeSliderShow", false);
       // console.log(window.localStorage.getItem('user'))
     },

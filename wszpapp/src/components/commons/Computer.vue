@@ -5,7 +5,7 @@
       <div class="box">
         <div class="sou">
           <i class="iconfont icon-ipad"></i>
-          <input v-model="cont" type="text" @keyup.enter="show">
+          <input v-model="cont" type="text" @keyup.enter="show" />
         </div>
         <div class="off" @click="$router.go(-1)">取消</div>
       </div>
@@ -20,7 +20,7 @@
         <div class="san">{{item}}</div>
         <i :class="now==index?'iconfont icon-icon-solidArrow-up':''"></i>
       </li>
-    </ul> -->
+    </ul>-->
     <ul
       class="foodlist"
       v-infinite-scroll="loadMore"
@@ -88,11 +88,9 @@ export default {
         message: "loading",
         iconClass: "fa-spin fa fa-spinner"
       });
+      const map = { pagesize: 20, target: this.pageNo };
       this.$axios
-        .post("/api/api/qiy/findqiy", {
-          pagesize: 20,
-          target: this.pageNo
-        })
+        .post("/api/api/qiy/findqiy", map)
         .then(res => {
           console.log(res);
           if (res.msg == "请求ok") {
@@ -113,7 +111,7 @@ export default {
       });
       this.$axios
         .post("/api/api/qiy/fqiy", {
-          job:this.cont,
+          job: this.cont,
           pagesize: 20,
           target: this.pageNo
         })
@@ -128,7 +126,7 @@ export default {
         .catch(err => {
           console.log(err);
         });
-    },
+    }
   },
   created() {
     //   this.getData()
@@ -232,28 +230,28 @@ export default {
       justify-content: center;
       border-bottom: 1px solid rgba(243, 242, 242, 0.938);
       // .mb(20);
-      .tops{
+      .tops {
         display: flex;
         justify-content: space-between;
         align-items: center;
         .fs(14);
-        .title{
+        .title {
           color: black;
         }
-        .gz{
+        .gz {
           color: #e7693f;
         }
       }
-      .bottoms{
+      .bottoms {
         .mt(5);
         .fs(12);
         display: flex;
         align-items: center;
         justify-content: space-between;
-        .address{
+        .address {
           color: #cccccc;
         }
-        .ctype{
+        .ctype {
           color: #999;
         }
       }

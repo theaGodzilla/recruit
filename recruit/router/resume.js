@@ -7,15 +7,16 @@ const util = require('../utils/utils.js')
 //添加信息
 Router.post('/addresume', (req, res) => {
   let jid = req.body.sid
-  let { title, job, name, education, major, emaill, phone, address, date, work, school, summary } = req.body.info
+  let { title, job, name, education, major, emaill, phone, address, date, work, school, summary } = req.body.info;
+  console.log(req.body)
   resumeModel.insertMany({
     jid, title, job, name, education, major, emaill, phone, address, date, work, school, summary
   })
     .then((data) => {
-      res.send(util.sendData(0, '添加简历信息ok', data))
+      res.send(util.sendData(0, 'ok', data))
     })
     .catch((err) => {
-      res.send(util.sendData(-1, '添加简历信息失败', err))
+      res.send(util.sendData(-1, 'no', err))
     })
 })
 //更新信息
@@ -23,7 +24,7 @@ Router.post('/updateresume', (req, res) => {
   let id = req.body.id
   if (!id) { res.send(util.sendData(-1, '参数错误', null)) }
   let { title, job, name, education, major, emaill, phone, address, date, work, school, summary } = req.body.info
-  resumeModel.update({ _id: id }, {
+  resumeModel.updateOne({ _id: id }, {
     $set: {
       titl: title,
       job: job,

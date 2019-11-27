@@ -40,6 +40,7 @@
             <!-- <i class="fa fa-trash" @click="deleteArticle(row._id)"></i> -->
             <!-- <i class="fa fa-pencil" @click="toAddArticle(row)"></i> -->
             <i class="fa fa-pencil" @click="openModel(row._id)"></i>
+            <a href="JavaScript:;" @click="openModelRes(row.jid)">查看简历</a>
           </template>
         </el-table-column>
       </el-table>
@@ -60,7 +61,7 @@
       <el-dialog :title="articleDialog.title" :visible.sync="articleDialog.visible" fullscreen>
         <!-- {{articleDialog.form.fileIds}} -->
         <el-form :model="articleDialog.form" :rules="rules" ref="articleDialog.form">
-          <el-form-item prop="title" label="招聘标题" label-width="120px">
+          <el-form-item style="display: inline-block;" prop="title" label="简历名称" label-width="120px">
             <el-input v-model="articleDialog.form.title" autocomplete="off"></el-input>
           </el-form-item>
           <!-- <el-form-item
@@ -73,31 +74,59 @@
               <el-option v-for="c in categories" :label="c.name" :key="c.id" :value="c.id"></el-option>
             </el-select>
           </el-form-item>-->
-          <el-form-item prop="title" label="招聘企业" label-width="120px">
-            <el-input v-model="articleDialog.form.companyFullname" autocomplete="off"></el-input>
+          <el-form-item style="display: inline-block;" prop="title" label="姓名" label-width="120px">
+            <el-input v-model="articleDialog.form.name" autocomplete="off"></el-input>
           </el-form-item>
-          <el-form-item label="工作时间" label-width="120px">
-            <el-input v-model="articleDialog.form.days_a_week" autocomplete="off"></el-input>
+          <el-form-item style="display: inline-block;" label="应聘职位" label-width="120px">
+            <el-input v-model="articleDialog.form.job" autocomplete="off"></el-input>
           </el-form-item>
-          <el-form-item label="薪资" label-width="120px">
-            <el-input v-model="articleDialog.form.salaryText" autocomplete="off"></el-input>
+          <el-form-item style="display: inline-block;" label="手机" label-width="120px">
+            <el-input v-model="articleDialog.form.phone" autocomplete="off"></el-input>
           </el-form-item>
-          <el-form-item label="城市" label-width="120px">
-            <el-input v-model="articleDialog.form.city" autocomplete="off"></el-input>
+          <el-form-item style="display: inline-block;" label="邮箱" label-width="120px">
+            <el-input v-model="articleDialog.form.emaill" autocomplete="off"></el-input>
           </el-form-item>
-          <el-form-item label="公司规模" label-width="120px">
+          <el-form-item style="display: inline-block;" label="学历" label-width="120px">
+            <el-input v-model="articleDialog.form.education" autocomplete="off"></el-input>
+          </el-form-item>
+          <el-form-item style="display: inline-block;" label="专业" label-width="120px">
+            <el-input v-model="articleDialog.form.major" autocomplete="off"></el-input>
+          </el-form-item>
+          <el-form-item style="display: inline-block;" label="出生日期" label-width="120px">
+            <el-input v-model="articleDialog.form.date" autocomplete="off"></el-input>
+          </el-form-item>
+          <el-form-item style="display: inline-block;" label="城市" label-width="120px">
+            <el-input v-model="articleDialog.form.address" autocomplete="off"></el-input>
+          </el-form-item>
+          <!-- <el-form-item label="公司规模" label-width="120px">
             <el-input v-model="articleDialog.form.workerNumber" autocomplete="off"></el-input>
-          </el-form-item>
+          </el-form-item> -->
           <!-- <el-form-item label="职位要求" label-width="120px">
             <el-input v-model="articleDialog.form.educationText" autocomplete="off"></el-input>
           </el-form-item>-->
 
-          <el-form-item prop="comment" label="职位要求" label-width="120px">
+          <el-form-item prop="comment" label="工作经验" label-width="120px">
+            <el-input
+              type="textarea"
+              :rows="5"
+              placeholder="请输入内容"
+              v-model="articleDialog.form.work"
+            ></el-input>
+          </el-form-item>
+          <el-form-item prop="comment" label="教育背景" label-width="120px">
             <el-input
               type="textarea"
               :rows="4"
               placeholder="请输入内容"
-              v-model="articleDialog.form.educationText"
+              v-model="articleDialog.form.school"
+            ></el-input>
+          </el-form-item>
+          <el-form-item prop="comment" label="个人总结" label-width="120px">
+            <el-input
+              type="textarea"
+              :rows="4"
+              placeholder="请输入内容"
+              v-model="articleDialog.form.summary"
             ></el-input>
           </el-form-item>
           <!-- <el-form-item prop="liststyle" label="发布样式" label-width="120px">
@@ -128,12 +157,12 @@
           </el-form-item>-->
         </el-form>
         <div slot="footer" class="dialog-footer">
-          <el-button size="small" @click="closeArticleDialog('articleDialog.form')">取 消</el-button>
+          <!-- <el-button size="small" @click="closeArticleDialog('articleDialog.form')">取 消</el-button>
           <el-button
             type="primary"
             size="small"
             @click="saveOrUpdateArticle('articleDialog.form',true)"
-          >确 定</el-button>
+          >确 定</el-button> -->
         </div>
       </el-dialog>
     </div>
@@ -163,13 +192,13 @@ export default {
         fileList: []
       },
       rules: {
-        title: [{ required: true, message: "请输入招聘标题", trigger: "blur" }],
-        content: [
-          { required: true, message: "请输入招聘正文信息", trigger: "blur" }
-        ],
-        categoryId: [
-          { required: true, message: "请选择父级方向", trigger: "blur" }
-        ]
+        // title: [{ required: true, message: "请输入招聘标题", trigger: "blur" }],
+        // content: [
+        //   { required: true, message: "请输入招聘正文信息", trigger: "blur" }
+        // ],
+        // categoryId: [
+        //   { required: true, message: "请选择父级方向", trigger: "blur" }
+        // ]
       }
     };
   },
@@ -284,6 +313,24 @@ export default {
             type: "info",
             message: "已取消邀请"
           });
+        });
+    },
+    openModelRes(id) {
+      this.articleDialog.visible = true;
+      this.$axios
+        .post("/api/api/resume/findresume", {
+          id
+        })
+        .then(res => {
+          if (res.msg == "ok") {
+            this.articleDialog.form=res.data[0]
+            console.log(this.articleDialog.form);
+          } else {
+            this.isOk = false;
+          }
+        })
+        .catch(err => {
+          console.log(err);
         });
     },
     updateSss() {
@@ -456,11 +503,9 @@ export default {
           job: this.params.keywords
         })
         .then(res => {
-          console.log(res);
           if (res.msg == 200) {
             this.articles = res.data.data;
             this.total = res.data.total;
-            console.log(this.total);
           }
         })
         .catch(error => {

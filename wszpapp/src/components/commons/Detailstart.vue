@@ -5,7 +5,7 @@
       <div class="con-top">
         <h2>{{info.title}}</h2>
         <!-- <p v-html="list.companyShortname"></p> -->
-        <p>阅读 {{info.count}}</p>
+        <!-- <p>阅读 {{info.count}}</p> -->
         <div class="img">
           <img :src="info.image" alt>
         </div>
@@ -21,7 +21,7 @@
         </div>
         <div class="con-top-b">
           <div class="left">
-            <div class="leftname">职位：{{info.workCategorys[0].name}}</div>
+            <div class="leftname">职位：{{info.workCategorys[0].name}}{{con}}</div>
           </div>
         </div>
       </div>
@@ -35,7 +35,7 @@
         <div class="user">
           <div class="left">
             <div class="leftimg">
-              <img :src="item.name" alt>
+              <img :src="item.img" alt>
             </div>
             <div class="leftname">{{item.sname}}</div>
           </div>
@@ -51,7 +51,7 @@
     <transition enter-active-class="fadeInUp delay-zdys" leave-active-class="fadeOutDown">
       <ul class="bottom animated" v-show="show" :key="1">
         <li v-for="(item,index) in bottomlist" :key="index" @click="selcomment(index)">
-          <i :class="good==index?hl==true?item.icon+' '+'hl':item.icon:item.icon"></i>
+          <i :class="index==0&&hl?item.icon+' '+'hl':index==1&&hl1?item.icon+' '+'hl':item.icon"></i>
           <span>{{item.name}}</span>
         </li>
       </ul>
@@ -91,6 +91,7 @@ export default {
       show: true,
       good: null,
       hl: false,
+      hl1: false,
       info: {},
       con: ""
     };
@@ -164,7 +165,7 @@ export default {
         this.$axios
           .post("/api/api/collection/getxg", {
             xuehao,
-            sid: this.list._id
+            sid: this.info.id
           })
           .then(res => {
             if (res == "yes") {
@@ -184,12 +185,12 @@ export default {
       const { xuehao } = JSON.parse(window.localStorage.getItem("info"));
       this.$axios
         .post("/api/api/collection/addcoll", {
-          sid: this.list._id,
+          sid: this.info.id,
           xuehao,
-          qname: this.list.ctype,
-          title: this.list.job,
-          type: 1,
-          content: this.list.xueli
+          qname: this.info.companys[0].name,
+          title: this.info.title,
+          type: 0,
+          content: this.info.image
         })
         .then(res => {
           if (res.msg == "ok") Toast("收藏成功");
@@ -225,26 +226,33 @@ export default {
         (myDate.getMonth() + 1) +
         "-" +
         myDate.getDate();
-      const { name, xuehao } = JSON.parse(window.localStorage.getItem("info"));
-      this.$axios
-        .post("/api/api/comment/addcom", {
-          pid: this.info.id,
-          sname: name,
-          xuehao,
-          content: this.con,
-          date
-        })
-        .then(res => {
-          console.log(res);
-          if (res.msg == "ok"){
-            this.getComment();
-            this.con='';
-            this.show=true
-          } 
-        })
-        .catch(err => {
-          console.log(err);
-        });
+      const { name, xuehao, imgUrl } = JSON.parse(
+        window.localStorage.getItem("info")
+      );
+      if (this.con) {
+        this.$axios
+          .post("/api/api/comment/addcom", {
+            pid: this.info.id,
+            sname: name,
+            xuehao,
+            content: this.con,
+            date,
+            img: imgUrl
+          })
+          .then(res => {
+            console.log(res);
+            if (res.msg == "ok") {
+              this.getComment();
+              this.con = "";
+              this.show = true;
+            }
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      } else {
+        Toast("请输入内容");
+      }
     },
     getComment() {
       const { id } = this.$route.query;
@@ -261,11 +269,22 @@ export default {
     },
     selcomment(index) {
       if (index <= 1) {
-        if (window.localStorage.getItem("user") == null) {
+        if (!window.localStorage.getItem("user")) {
           this.$router.push("dl/login");
-        } else {
-          this.good = index;
+        } else if (index == 0) {
           this.hl = !this.hl;
+          if (this.hl) {
+            Toast("已点赞");
+          } else {
+            Toast("已取消");
+          }
+        } else {
+          this.hl1 = !this.hl1;
+          if (this.hl1) {
+            this.vcoll();
+          } else {
+            Toast("已取消");
+          }
         }
       } else {
         this.show = !this.show;
@@ -457,8 +476,8 @@ export default {
       }
     }
     .con-comment {
-      border-bottom:1px solid #ccc; 
-      .padding(0,0,5,0);
+      border-bottom: 1px solid #ccc;
+      .padding(0, 0, 5, 0);
       .mb(10);
       .user {
         display: flex;
@@ -506,7 +525,7 @@ export default {
         .h(20);
         .lh(20);
         .fs(14);
-         color: #ccc;
+        color: #ccc;
         text-align: right;
         i {
           display: block;

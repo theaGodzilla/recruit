@@ -20,6 +20,7 @@ export default {
   data() {
     return {
       userform: {},
+      res: {},
       rules: {
         username: [
           { required: true, message: "请输入用户名", trigger: "blur" }
@@ -41,7 +42,7 @@ export default {
           })
           .then(res => {
             console.log(res);
-            if (res == "yes") {
+            if (res == "ok") {
               this.log();
             } else {
               this.$message("账号不存在");
@@ -59,15 +60,14 @@ export default {
           pass: this.userform.password
         })
         .then(res => {
-          console.log(res);
-          if (res == '登录成功') {
-            // this.info=res.data[0]
-            // window.localStorage.setItem("user", this.user);
-            // window.localStorage.setItem("info", JSON.stringify(this.info));
-            // this.$store.commit("changeLogin", true);
-            // this.$router.go(-1);
-            localStorage.setItem("user", JSON.stringify(this.userform));
-            window.vm.currentComponent = "App";
+          if (res.msg == "ok") {
+            this.res = res.data[0];
+            if (this.res.stu) {
+              localStorage.setItem("user", JSON.stringify(this.res));
+              window.vm.currentComponent = "App";
+            } else {
+              this.$message("该用户无使用权限");
+            }
           } else {
             this.$message("密码错误");
           }

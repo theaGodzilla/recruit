@@ -20,20 +20,20 @@
     >
       <router-link
         tag="li"
-        :to="{path:'details',query:{id:item.sid}}"
+        :to="{path:item.type==1?'details':'detailstart',query:{id:item.sid}}"
         v-for="(item,index) in list"
         :key="index"
       >
-        <!-- <div class="img">
-          <img :src="item.imageUrl" alt>
-        </div>-->
+        <div v-show="item.type==0" class="img">
+          <img :src="item.content" alt>
+        </div>
         <div class="title">
           <div class="name">{{item.title}}</div>
           <div class="user confs">
             {{item.qname}}
             <div @click.stop="delData(item._id)">取消收藏</div>
           </div>
-          <div class="desc confs">{{item.content}}</div>
+          <div v-show="item.type==1" class="desc confs">{{item.content}}</div>
           <!-- <div class="look confs">
             <i class="iconfont icon-liulan"></i>
             {{item.bookPageViews==null?0:item.bookPageViews}}
@@ -177,8 +177,18 @@ export default {
       .padding(0, 15, 0, 15);
       display: flex;
       justify-content: flex-start;
+      align-items: center;
       border-bottom: 5px solid rgba(243, 242, 242, 0.938);
       .mt(10);
+      .img {
+        .w(80);
+        .h(55);
+        .mr(10);
+        img {
+          width: 100%;
+          height: 100%;
+        }
+      }
       .title {
         .w(355);
         .confs {

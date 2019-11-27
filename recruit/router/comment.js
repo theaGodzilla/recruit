@@ -6,9 +6,9 @@ const util = require('../utils/utils.js')
 
 //评论
 Router.post('/addcom', (req, res) => {
-  let { pid, sname, xuehao, content, date } = req.body
+  let { pid, sname, xuehao, content, date, img } = req.body
   commentModel.insertMany({
-    pid, sname, xuehao, content, date
+    pid, sname, xuehao, content, date, img
   })
     .then((data) => {
       res.send(util.sendData(0, 'ok', null))
@@ -17,7 +17,7 @@ Router.post('/addcom', (req, res) => {
       res.send(util.sendData(-1, 'no', err))
     })
 })
-//验证是否存投递过
+//
 Router.post('/getcom', (req, res) => {
   let { xuehao, gid } = req.body;
   commentModel.find({ xuehao, gid })

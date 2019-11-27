@@ -47,7 +47,7 @@ let vm = new Vue({
   },
   created() {
     let user = JSON.parse(localStorage.getItem('user'));
-    if (user && user.username) {
+    if (user && user.name) {
       this.currentComponent = 'App';
     } else {
       this.currentComponent = 'Login';

@@ -132,7 +132,7 @@
           <el-button
             type="primary"
             size="small"
-            @click="saveOrUpdateArticle('articleDialog.form',true)"
+            @click="saveOrUpdateArticle('articleDialog.form',type)"
           >确 定</el-button>
         </div>
       </el-dialog>
@@ -145,6 +145,7 @@
 export default {
   data() {
     return {
+      type:false,
       loading: false,
       ids: [],
       categories: [],
@@ -152,7 +153,7 @@ export default {
       total: 0,
       params: {
         page: 0,
-        pageSize: 7,
+        pageSize: 9,
         keywords: ""
       },
       articleDialog: {
@@ -256,6 +257,8 @@ export default {
     openModel(data) {
       this.articleDialog.visible = true;
       this.articleDialog.form = data;
+      this.articleDialog.title = "修改招聘信息";
+      this.type=true;
     },
     updateSss() {
       // this.userForm.userface = this.imgDataUrl;
@@ -345,6 +348,7 @@ export default {
     },
     toAddArticle(row) {
       if (row) {
+        this.type=true;
         // 处理表单数据
         let c = _.cloneDeep(row);
         // 显示默认缩略图
@@ -371,6 +375,7 @@ export default {
         this.articleDialog.form = c;
         this.articleDialog.title = "修改招聘信息";
       } else {
+        this.type=false;
         this.articleDialog.form = {
           liststyle: "style-one",
           fileIds: [],

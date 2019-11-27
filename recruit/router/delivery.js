@@ -30,7 +30,7 @@ Router.post('/getxg', (req, res) => {
 Router.post('/finddelivery', (req, res) => {
   let { xuehao, pass } = req.body;
   console.log(pass)
-  deliveryModel.find({ xuehao, pass })
+  deliveryModel.find(pass ? { xuehao, pass } : { xuehao })
     .then((data) => {
       res.send(util.sendData(0, 'ok', data))
     })

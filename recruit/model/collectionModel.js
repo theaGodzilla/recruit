@@ -7,7 +7,7 @@ let collectionSchema = new Schema({
   qname: { type: String },
   title: { type: String },
   content: { type: String },
-  type: { type: Number }
+  type: { type: Number },
 })
 
 

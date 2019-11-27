@@ -5,9 +5,9 @@ let commentSchema = new Schema({
   pid: { type: String, required: true },
   xuehao: { type: String },
   sname: { type: String },
-  // title: { type: String },
-  content: { type: String },
-  date: { type: String  }
+  img: { type: String },
+  content: { type: String, required: true },
+  date: { type: String }
 })
 
 

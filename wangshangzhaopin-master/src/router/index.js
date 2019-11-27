@@ -4,6 +4,7 @@ import HelloWorld from '@/pages'
 import Category from '@/pages/Category'
 import Article from '@/pages/Article'
 import User from '@/pages/User'
+import Users from '@/pages/Users'
 import Setting from '@/pages/setting'
 import SettingInfo from '@/pages/setting/Info'
 import SettingAuth from '@/pages/setting/Auth'
@@ -26,6 +27,9 @@ export default new Router({
     },{
       path:'/user',
       component:User,
+    },{
+      path:'/users',
+      component:Users,
     },{
       path:'/setting',
       component:Setting,

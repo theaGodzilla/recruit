@@ -178,7 +178,8 @@ export default {
       // bookUserId:'',
       show: true,
       good: null,
-      hl: false
+      hl: false,
+      resume: {}
     };
   },
   methods: {
@@ -228,21 +229,25 @@ export default {
     vie() {
       if (window.localStorage.getItem("info")) {
         const { xuehao } = JSON.parse(window.localStorage.getItem("info"));
-        this.$axios
-          .post("/api/api/delivery/getxg", {
-            xuehao,
-            gid: this.list.id
-          })
-          .then(res => {
-            if (res == "yes") {
-              Toast("已投递该职位");
-            } else {
-              this.setData();
-            }
-          })
-          .catch(err => {
-            console.log(err);
-          });
+        if (this.resume) {
+          this.$axios
+            .post("/api/api/delivery/getxg", {
+              xuehao,
+              gid: this.list.id
+            })
+            .then(res => {
+              if (res == "yes") {
+                Toast("已投递该职位");
+              } else {
+                this.setData();
+              }
+            })
+            .catch(err => {
+              console.log(err);
+            });
+        } else {
+          Toast("请先填写简历");
+        }
       } else {
         Toast("请登录");
       }
@@ -351,9 +356,26 @@ export default {
           });
       }
     },
+    getres() {
+      const id = JSON.parse(window.localStorage.getItem("info")).xuehao;
+      this.$axios
+        .post("/api/api/resume/findresume", {
+          id
+        })
+        .then(res => {
+          if (res.msg == "ok") {
+            this.resume = res.data[0];
+          } else {
+            this.isOk = false;
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
     selcomment(index) {
       if (index <= 1) {
-        if (window.localStorage.getItem("user") == null) {
+        if (!window.localStorage.getItem("user")) {
           this.$router.push("dl/login");
         } else {
           this.good = index;
@@ -367,6 +389,7 @@ export default {
   mounted() {},
   created() {
     this.getData();
+    this.getres();
   },
   destroy() {}
 };

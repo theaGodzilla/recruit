@@ -4,8 +4,8 @@ const userModel = require('../model/userModel.js');
 const q_mail = require('../admin/index.js');
 const q_utli = require('../admin/utli/utli.js');
 
-const mail=require('../mail.js');
-const util=require('../utils/utils.js')
+const mail = require('../mail.js');
+const util = require('../utils/utils.js')
 
 
 /**
@@ -99,19 +99,19 @@ const util=require('../utils/utils.js')
 
 // //获取邮箱验证码
 Router.post('/email', (req, res) => {
-    let { name, pass, email, code } = req.body;
-    if (obj[email] !== code) {
-        return res.send(q_utli.sendData(-1, '验证码错误', null))
+	let { name, pass, email, code } = req.body;
+	if (obj[email] !== code) {
+		return res.send(q_utli.sendData(-1, '验证码错误', null))
 
-    }
-    userModel.update({ pass })
-        .then((resolve) => {
-            //   console.log(resolve)
-            res.send(q_utli.sendData(0, '密码更改成功', null))
-        })
-        .catch((err) => {
-            res.send(q_utli.sendData(-1, '密码跟改失败', null))
-        })
+	}
+	userModel.update({ pass })
+		.then((resolve) => {
+			//   console.log(resolve)
+			res.send(q_utli.sendData(0, '密码更改成功', null))
+		})
+		.catch((err) => {
+			res.send(q_utli.sendData(-1, '密码跟改失败', null))
+		})
 })
 
 /**
@@ -147,60 +147,119 @@ Router.post('/email', (req, res) => {
 
 //bbbbbb
 //登录
-let obj={}
-Router.post('/login',(req,res)=>{
-	let {name,pass}=req.body;
-	userModel.find({name,pass})
-	.then((data)=>{
-		console.log(data)
-		if(data.length>=1){return res.send('登录成功')}
-		res.send('登录失败')
-	})
+let obj = {}
+Router.post('/login', (req, res) => {
+	let { name, pass } = req.body;
+	userModel.find({ name, pass })
+		.then((data) => {
+			if (data.length >= 1) { res.send(util.sendData(0, 'ok', data)) }
+			// res.send('登录失败')
+		})
+		.catch((err) => {
+			res.send(util.sendData(-1, '登录失败', null))
+		})
 })
 //验证用户是否存在
-Router.post('/uspd',(req,res)=>{
-	let {name}=req.body;
-	userModel.find({name})
-	.then((data)=>{
-		console.log(data)
-		if(data.length>=1){return res.send('yes')}
-		res.send('no')
-	})
+Router.post('/uspd', (req, res) => {
+	let { name } = req.body;
+	userModel.find({ name })
+		.then((data) => {
+			if (data.length >= 1) { return res.send('ok') }
+			res.send('no')
+		})
 })
 //注册
-Router.post('/reg',(req,res)=>{
-	let {name,pass,code}=req.body;
-	userModel.find({name})
-	.then((data)=>{
-		console.log(data)
-		if(data.length>=1){return res.send('用户以存在')}
-		if(obj[name]!==code){return res.send(util.sendData(-1,'验证码错误',null))}
-		userModel.insertMany({name,pass})
-		.then((resolve)=>{
-			res.send(util.sendData(0,'注册ok 请登录',null))
+Router.post('/reg', (req, res) => {
+	let { name, pass, code } = req.body;
+	userModel.find({ name })
+		.then((data) => {
+			console.log(data)
+			if (data.length >= 1) { return res.send('用户以存在') }
+			if (obj[name] !== code) { return res.send(util.sendData(-1, '验证码错误', null)) }
+			userModel.insertMany({ name, pass })
+				.then((resolve) => {
+					res.send(util.sendData(0, '注册ok 请登录', null))
+				})
+				.catch((err) => {
+					console.log(err)
+					res.send(util.sendData(-1, '注册失败', null))
+				})
 		})
-		.catch((err)=>{
-			console.log(err)
-			res.send(util.sendData(-1,'注册失败',null))
-		})
-	})
 })
 
-Router.post('/getcode',(req,res)=>{
-	let {email}=req.body
-	if(!email||email==""){return res.send(util.sendData(-1,'参数错误',null))}
-	let num1=(parseInt(Math.random(0,1)*10000)).toString()
-	mail.sendmail(email,num1)
-	.then((resolve)=>{
-		obj[email]=num1
-		//保存验证信息
-//		console.log(obj)
-		res.send(util.sendData(0,'验证码已发送',null))
+//添加用户
+Router.post('/addUser', (req, res) => {
+	let { name, pass, stu, nickname, email, imageUrl, time } = req.body;
+	userModel.find({ name })
+		.then((data) => {
+			console.log(data)
+			if (data.length >= 1) { return res.send('用户以存在') }
+			// if(obj[name]!==code){return res.send(util.sendData(-1,'验证码错误',null))}
+			userModel.insertMany({ name, pass, stu: stu ? stu : false, nickname, email, imageUrl, time, who: 1 })
+				.then((resolve) => {
+					res.send(util.sendData(0, 'ok', null))
+				})
+				.catch((err) => {
+					console.log(err)
+					res.send(util.sendData(-1, 'no', null))
+				})
+		})
+})
+
+//更新信息
+Router.post('/updateUsers', (req, res) => {
+	// let id = req.body.id
+	// if (!id) { res.send(util.sendData(-1, '参数错误', null)) }
+	let { id, stu } = req.body
+	userModel.updateOne({ _id: id }, {
+		$set: {
+			stu: stu
+		}
 	})
-	.catch((err)=>{
-		console.log(err)
-		res.send(util.sendData(-1,'验证码发送失败',null))
-	})
+		.then((data) => {
+			res.send(util.sendData(0, 'ok', data))
+		})
+		.catch((err) => {
+			res.send(util.sendData(-1, 'no', null))
+		})
+})
+
+Router.post('/delUsers', (req, res) => {
+	let id = req.body.id
+	if (!id) { res.send(util.sendData(-1, '参数错误', null)) }
+	userModel.deleteOne({ _id: id })
+		.then((data) => {
+			res.send(util.sendData(0, 'ok', data))
+		})
+		.catch((err) => {
+			res.send(util.sendData(-1, 'no', null))
+		})
+})
+Router.post('/findUser', (req, res) => {
+	userModel.find({ who: 1 })
+		.then((data) => {
+			res.send(util.sendData(0, 'ok', data))
+		})
+		.catch((err) => {
+			res.send(util.sendData(-1, 'no', null))
+		})
+})
+
+Router.post('/getcode', (req, res) => {
+	let { email } = req.body
+	if (!email || email == "") { return res.send(util.sendData(-1, '参数错误', null)) }
+	let num1 = (parseInt(Math.random(0, 1) * 10000)).toString()
+	mail.sendmail(email, num1)
+		.then((resolve) => {
+			obj[email] = num1
+			//保存验证信息
+			//		console.log(obj)
+			res.send(util.sendData(0, '验证码已发送', null))
+		})
+		.catch((err) => {
+			console.log(err)
+			res.send(util.sendData(-1, '验证码发送失败', null))
+		})
 })
 
 

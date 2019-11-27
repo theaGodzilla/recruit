@@ -56,7 +56,7 @@ export default {
   components: { Head },
   data() {
     return {
-      options: [{ title: "投递记录", type: 0 }, { title: "面试邀约", type: 1 }],
+      options: [{ title: "投递记录", type: null }, { title: "面试邀约", type: 1 }],
       now: 0,
       list: [],
       pageNo: 1,
