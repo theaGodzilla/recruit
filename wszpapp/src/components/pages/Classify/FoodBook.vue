@@ -79,7 +79,6 @@ export default {
       this.now = idx;
       this.nows = 0;
       this.category = id;
-      console.log(id);
       this.getData();
     }
   },
