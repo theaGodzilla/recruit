@@ -74,7 +74,6 @@ export default {
           // this.list = this.list.concat(res.data.data); //%23
           // this.pageNo++;
           // this.toast.close();
-          // console.log(this.list);
         })
         .catch(err => {
           this.toast.close();
