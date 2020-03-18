@@ -62,7 +62,6 @@ export default {
       this.nows = idx;
       this.category = id;
       this.getData();
-      console.log(this.category);
     },
     getData() {
       console.log(this);
