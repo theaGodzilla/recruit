@@ -68,7 +68,6 @@ export default {
             // this.list = this.list.concat(res.data);
             this.list = res.data.reverse();
             // this.pageNo++;
-            // this.toast.close();
           }
         })
         .catch(err => {
